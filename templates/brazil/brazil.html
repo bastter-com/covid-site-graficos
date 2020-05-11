@@ -1,0 +1,510 @@
+{% extends "../base.html" %} {% load static %} {% load humanize %} 
+{% block title %} Brasil {% endblock %} {% block content %}
+<div class="container">
+  <div class="main-info pb-4">
+    <h1 class="text-center">Covid-19 no Brasil</h1>
+    <p class="text-center pb-0">
+      Última atualização (dados Brasil) em {{ last_update }}.
+    </p>
+    <small class="d-block"
+      >Obs: A atualização dos dados por Unidade Federativa é assíncrona,
+      dependente da divulgação das secretarias de saúde estaduais e podem
+      variar.</small
+    >
+    <small class="d-block">
+      Fonte: Secretarias de Saúde das Unidades Federativas, dados tratados por
+      Álvaro Justen e colaboradores/Brasil.IO.
+    </small>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-6 border my-3">
+      <!-- Chart 1 -->
+      <div class="chart-container-parent" id="chart-container-parent-1">
+        <small>Dica: clique na legenda para apagar a linha.</small>
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a
+              id="chart-one-linear"
+              class="nav-link chart-nav-link linear active"
+              >Linear</a
+            >
+          </li>
+          <li class="nav-item">
+            <a id="chart-one-log" class="nav-link chart-nav-link logarithm"
+              >Logarítmica</a
+            >
+          </li>
+        </ul>
+        <div class="chart-container p-0">
+          <canvas id="chart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6 border my-3">
+      <!-- Chart 2 -->
+      <div class="chart-container-parent" id="chart-container-parent-2">
+        <small>Dica: clique na legenda para apagar a linha.</small>
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a
+              id="chart-two-linear"
+              class="nav-link chart-nav-link linear active"
+              >Linear</a
+            >
+          </li>
+          <li class="nav-item">
+            <a id="chart-two-log" class="nav-link chart-nav-link logarithm"
+              >Logarítmica</a
+            >
+          </li>
+        </ul>
+        <div class="chart-container p-0">
+          <canvas id="chart-2"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-6 border my-3">
+      <!-- Chart 3 -->
+      <div class="chart-container-parent" id="chart-container-parent-3">
+        <small>Dica: clique na legenda para apagar a linha.</small>
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a
+              id="chart-three-linear"
+              class="nav-link chart-nav-link linear active"
+              >Linear</a
+            >
+          </li>
+          <li class="nav-item">
+            <a id="chart-three-log" class="nav-link chart-nav-link logarithm"
+              >Logarítmica</a
+            >
+          </li>
+        </ul>
+        <div class="chart-container p-0">
+          <canvas id="chart-3"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 border my-3">
+      <!-- Chart 4 -->
+      <div class="chart-container-parent" id="chart-container-parent-4">
+        <small>Dica: clique na legenda para apagar a linha.</small>
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a
+              id="chart-four-linear"
+              class="nav-link chart-nav-link linear active"
+              >Linear</a
+            >
+          </li>
+          <li class="nav-item">
+            <a id="chart-four-log" class="nav-link chart-nav-link logarithm"
+              >Logarítmica</a
+            >
+          </li>
+        </ul>
+        <div class="chart-container p-0">
+          <canvas id="chart-4"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-6 border my-3">
+      <!-- Chart 5 -->
+      <div class="chart-container-parent" id="chart-container-parent-5">
+        <small>Dica: clique na legenda para apagar a linha.</small>
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a
+              id="chart-five-linear"
+              class="nav-link chart-nav-link active linear"
+              >Linear</a
+            >
+          </li>
+          <li class="nav-item">
+            <a id="chart-five-log" class="nav-link chart-nav-link logarithm"
+              >Logarítmica</a
+            >
+          </li>
+        </ul>
+        <div class="chart-container p-0">
+          <canvas id="chart-5"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6 border my-3">
+      <!-- Chart 6 -->
+      <div class="chart-container-parent" id="chart-container-parent-6">
+        <small>Dica: clique na legenda para apagar a linha.</small>
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a
+              id="chart-six-linear"
+              class="nav-link chart-nav-link active linear"
+              >Linear</a
+            >
+          </li>
+          <li class="nav-item">
+            <a id="chart-six-log" class="nav-link chart-nav-link logarithm"
+              >Logarítmica</a
+            >
+          </li>
+        </ul>
+        <div class="chart-container p-0">
+          <canvas id="chart-6"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-6 border my-3">
+      <!-- Chart 7 -->
+      <div class="chart-container-parent" id="chart-container-parent-7">
+        <small>Dica: clique na legenda para apagar a linha.</small>
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a
+              id="chart-seven-linear"
+              class="nav-link chart-nav-link active linear"
+              >Linear</a
+            >
+          </li>
+          <li class="nav-item">
+            <a id="chart-seven-log" class="nav-link chart-nav-link logarithm"
+              >Logarítmica</a
+            >
+          </li>
+        </ul>
+        <div class="chart-container p-0">
+          <canvas id="chart-7"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6 border my-3">
+      <!-- Chart 8 -->
+      <div class="chart-container-parent" id="chart-container-parent-8">
+        <small>Dica: clique na legenda para apagar a linha.</small>
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a
+              id="chart-eight-linear"
+              class="nav-link chart-nav-link active linear"
+              >Linear</a
+            >
+          </li>
+          <li class="nav-item">
+            <a id="chart-eight-log" class="nav-link chart-nav-link logarithm"
+              >Logarítmica</a
+            >
+          </li>
+        </ul>
+        <div class="chart-container p-0">
+          <canvas id="chart-8"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-6 border my-3">
+      <!-- Chart 9 -->
+      <div class="chart-container-parent" id="chart-container-parent-9">
+        <small>Dica: clique na legenda para apagar a linha.</small>
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a
+              id="chart-nine-linear"
+              class="nav-link chart-nav-link active linear"
+              >Linear</a
+            >
+          </li>
+          <li class="nav-item">
+            <a id="chart-nine-log" class="nav-link chart-nav-link logarithm"
+              >Logarítmica</a
+            >
+          </li>
+        </ul>
+        <div class="chart-container p-0">
+          <canvas id="chart-9"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6 border my-3">
+      <!-- Chart 10 -->
+      <div class="chart-container-parent" id="chart-container-parent-10">
+        <small>Dica: clique na legenda para apagar a linha.</small>
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a
+              id="chart-ten-linear"
+              class="nav-link chart-nav-link active linear"
+              >Linear</a
+            >
+          </li>
+          <li class="nav-item">
+            <a id="chart-ten-log" class="nav-link chart-nav-link logarithm"
+              >Logarítmica</a
+            >
+          </li>
+        </ul>
+        <div class="chart-container p-0">
+          <canvas id="chart-10"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-6 border my-3">
+      <!-- Chart 11 -->
+      <div class="chart-container-parent" id="chart-container-parent-11">
+        <small>Dica: clique na legenda para apagar a linha.</small>
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a
+              id="chart-eleven-linear"
+              class="nav-link chart-nav-link active linear"
+              >Linear</a
+            >
+          </li>
+          <li class="nav-item">
+            <a id="chart-eleven-log" class="nav-link chart-nav-link logarithm"
+              >Logarítmica</a
+            >
+          </li>
+        </ul>
+        <div class="chart-container p-0">
+          <canvas id="chart-11"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 border my-3">
+      <!-- Chart 12 -->
+      <div class="chart-container-parent" id="chart-container-parent-12">
+        <small>Dica: clique na legenda para apagar a linha.</small>
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a
+              id="chart-twelve-linear"
+              class="nav-link chart-nav-link active linear"
+              >Linear</a
+            >
+          </li>
+          <li class="nav-item">
+            <a id="chart-twelve-log" class="nav-link chart-nav-link logarithm"
+              >Logarítmica</a
+            >
+          </li>
+        </ul>
+        <div class="chart-container p-0">
+          <canvas id="chart-12"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-6 border my-3">
+      <!-- Chart 13 -->
+      <small
+        >Dados referentes à última data de atualização de cada estado (vide
+        tabela abaixo)</small
+      >
+      <div class="chart-container p-0">
+        <canvas id="chart-13"></canvas>
+      </div>
+    </div>
+    <div class="col-lg-6 border my-3">
+      <!-- Chart 14 -->
+      <small
+        >Dados referentes à última data de atualização de cada estado (vide
+        tabela abaixo)</small
+      >
+      <div class="chart-container p-0">
+        <canvas id="chart-14"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-6 border my-3">
+      <!-- Chart 15 -->
+      <small
+        >Dados referentes à última data de atualização de cada estado (vide
+        tabela abaixo)</small
+      >
+      <div class="chart-container p-0">
+        <canvas id="chart-15"></canvas>
+      </div>
+    </div>
+
+    <div class="col-lg-6 border my-3">
+      <!-- Chart 16 -->
+      <small
+        >Dados referentes à última data de atualização de cada estado (vide
+        tabela abaixo)</small
+      >
+      <div class="chart-container p-0">
+        <canvas id="chart-16"></canvas>
+      </div>
+    </div>
+  </div> 
+
+  <div class="row">
+    <div class="col-lg-6 border my-3">
+      <!-- Chart 17 -->
+      <p class="text-center h3 geochart pt-3">
+        Casos por Unidade Federativa
+      </p>
+      <small
+        >Dados referentes à última data de atualização (vide tabela abaixo)</small
+      >
+      <div class="chart-container">
+        <div id="chart-map-1" class="geochartmap"></div>
+      </div>
+    </div>
+    <div class="col-lg-6 border my-3">
+      <!-- Chart 18 -->
+      <p class="text-center h3 geochart pt-3">
+        Mortes por Unidade Federativa
+      </p>
+      <small
+        >Dados referentes à última data de atualização (vide tabela abaixo)</small
+      >
+      <div class="chart-container">
+        <div id="chart-map-2" class="geochartmap"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-6 border my-3">
+      <!-- Chart 19 -->
+      <p class="text-center h3 geochart pt-3">
+        Casos / 100 mil habitantes por Unidade Federativa
+      </p>
+      <small
+        >Dados referentes à última data de atualização (vide tabela abaixo)</small
+      >
+      <div class="chart-container">
+        <div id="chart-map-3" class="geochartmap"></div>
+      </div>
+    </div>
+    <div class="col-lg-6 border my-3">
+      <!-- Chart 20 -->
+      <p class="text-center h3 geochart pt-3">
+        Mortes / 100 mil habitantes por Unidade Federativa
+      </p>
+      <small
+        >Dados referentes à última data de atualização (vide tabela abaixo)</small
+      >
+      <div class="chart-container">
+        <div id="chart-map-4" class="geochartmap"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <small class="d-block"
+    >Dica: clique na sigla de cada UF para ver dados específicos por Unidade
+    Federativa</small
+  >
+  <div class="mobile-message-table d-lg-none">
+    <small class="d-block"
+      >Dica: mova a tabela abaixo para a direita para ver todos os dados</small
+    >
+  </div>
+  <div class="table-responsive mb-5">
+    <table class="table table-striped">
+      <caption>
+        Dados por Unidade Federativa no Brasil
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col">UF</th>
+          <th scope="col">Casos</th>
+          <th scope="col">Mortes</th>
+          <th scope="col">Letalidade</th>
+          <th scope="col">População estimada em 2019</th>
+          <th scope="col">Casos por 100 mil habitantes</th>
+          <th scope="col">Mortes por 100 mil habitantes</th>
+          <th scope="col">Data do primeiro caso</th>
+          <th scope="col">Última atualização</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for state in states_daily_data %}
+        <tr scope="row">
+          <td><a href="/brasil/{{state.state}}">{{ state.state }}</a></td>
+          <td>{{ state.total_cases|intcomma }}</td>
+          <td>{{ state.total_deaths|intcomma }}</td>
+          <td>{{ state.lethality|intcomma }} %</td>
+          <td>{{ state.estimated_population_2019|intcomma }}</td>
+          <td>{{ state.cases_per_100k_pop|intcomma }}</td>
+          <td>{{ state.deaths_per_100k_pop|intcomma }}</td>
+          <td>{{ state.first_case_date }}</td>
+          <td>{{ state.last_date_with_updated_data }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+<script src="https://www.amcharts.com/lib/4/core.js"></script>
+<script src="https://www.amcharts.com/lib/4/maps.js"></script>
+<script src="https://www.amcharts.com/lib/4/geodata/brazilLow.js"></script>
+<script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+<script src="https://www.amcharts.com/lib/4/lang/pt_BR.js"></script>
+{{ brazil_total_data|json_script:"brazil-total-data" }} 
+{{ states_daily_data|json_script:"states-data" }} 
+{{ region_cases|json_script:"region-cases" }} 
+{{ region_deaths|json_script:"region-deaths" }} 
+{{ region_cases_100k_pop|json_script:"region-cases-100k-pop" }} 
+{{ region_deaths_100k_pop|json_script:"region-deaths-100k-pop" }} 
+{{ base_date_list_states_map|json_script:"dates-list-states-map" }} 
+{{ day_0_info|json_script:"day-0-info" }} 
+{{ day_0_days|json_script:"day-0-days" }}
+<script>
+  const brazilTotalData = JSON.parse(
+    document.getElementById('brazil-total-data').textContent
+  );
+  const statesDailyData = JSON.parse(
+    document.getElementById('states-data').textContent
+  );
+  const regionCases = JSON.parse(
+    document.getElementById('region-cases').textContent
+  );
+  const regionDeaths = JSON.parse(
+    document.getElementById('region-deaths').textContent
+  );
+  const regionCases100kPop = JSON.parse(
+    document.getElementById('region-cases-100k-pop').textContent
+  );
+  const regionDeaths100kPop = JSON.parse(
+    document.getElementById('region-deaths-100k-pop').textContent
+  );
+  const datesList = JSON.parse(
+    document.getElementById('dates-list-states-map').textContent
+  );
+  const dayZeroData = JSON.parse(
+    document.getElementById('day-0-info').textContent
+  );
+  const baseDayZeroDays = JSON.parse(
+    document.getElementById('day-0-days').textContent
+  );
+</script>
+<script src="{% static 'js/brazil.js' %}"></script>
+{% endblock %}

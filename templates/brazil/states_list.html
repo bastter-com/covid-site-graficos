@@ -1,0 +1,16 @@
+{% extends "../base.html" %} 
+{% load static %} 
+{% load humanize %} {% block title %} UFs {% endblock %} 
+{% block content %}
+<div class="container">
+    <h1 class="text-center">Lista de Unidades Federativas</h1>
+    <p class="text-center">Clique em uma UF para ter acesso aos dados detalhados</p>
+    <ul class="list-group pb-5 mt-5">
+        {% for uf in context %}
+        <li class="list-group-item"><a href="/brasil/{{ uf }}">{{ uf }}</a></li>
+        {% endfor %}
+    </ul>
+    <div class="pb-5"></div>
+</div>
+
+{% endblock %}

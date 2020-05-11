@@ -1,0 +1,118 @@
+{% extends "../base.html" %} 
+{% load static %} 
+{% load humanize %} 
+{% block title %} {{ context.state_name }} {% endblock %} 
+{% block content %}
+<div class="container">
+  <div class="main-info pb-4">
+    <h1 class="text-center">Covid-19 - {{ context.state_name }}</h1>
+    <p class="text-center pb-0">
+      Última atualização em {{ context.last_update }}.
+    </p>
+    <small class="d-block"
+      >Obs: A atualização dos dados por Unidade Federativa é assíncrona,
+      dependente da divulgação das secretarias de saúde estaduais e podem
+      variar.</small
+    >
+    <small class="d-block">
+      Fonte: Secretarias de Saúde das Unidades Federativas, dados tratados por
+      Álvaro Justen e colaboradores/Brasil.IO.
+    </small>
+  </div>
+  
+  <div class="row">
+    <div class="col-lg-6 border my-3">
+      <!-- Chart 1 -->
+      <div class="chart-container-parent" id="chart-container-parent-1">
+        <small>Dica: clique na legenda para apagar a linha.</small>
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a id="chart-one-linear" class="nav-link chart-nav-link linear active">Linear</a>
+          </li>
+          <li class="nav-item">
+            <a id="chart-one-log" class="nav-link chart-nav-link logarithm">Logarítmica</a>
+          </li>
+        </ul>
+        <div class="chart-container p-0">
+          <canvas id="chart"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 border my-3">
+      <!-- Chart 2 -->
+      <div class="chart-container-parent" id="chart-container-parent-2">
+        <small>Dica: clique na legenda para apagar a linha.</small>
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a id="chart-two-linear" class="nav-link chart-nav-link linear active">Linear</a>
+          </li>
+          <li class="nav-item">
+            <a id="chart-two-log" class="nav-link chart-nav-link logarithm">Logarítmica</a>
+          </li>
+        </ul>
+        <div class="chart-container p-0">
+          <canvas id="chart-2"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chart 3-->
+  {% comment %} <p class="text-center h3 geochart">
+    Casos / 100 mil habitantes por Município
+  </p>
+  <small>Dados referentes à última data de atualização</small>
+  <div class="chart-container">
+    <div id="chart-map-1" class="geochartmap"></div>
+  </div> {% endcomment %}
+  <div class="mobile-message-table d-lg-none">
+    <small class="d-block">Dica: mova a tabela abaixo para a direita para ver todos os dados</small>
+  </div>
+  <div class="table-responsive mb-5">
+    <table class="table table-striped">
+      <caption>
+        Estado: {{ context.state_name }}
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col">Data</th>
+          <th scope="col">Casos</th>
+          <th scope="col">Mortes</th>
+          <th scope="col">Casos por 100 mil habitantes</th>
+          <th scope="col">Mortes por 100 mil habitantes</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for data in context.data_for_table %}
+        <tr scope="row">
+          <td class="table-data">{{ data.date }}</td>
+          <td class="table-data">{{ data.confirmed|intcomma }}</td>
+          <td class="table-data">{{ data.deaths|intcomma }}</td>
+          <td class="table-data">{{ data.confirmed_rate_by_100k_pop }}</td>
+          <td class="table-data">{{ data.deaths_rate_by_100k_pop }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+{{ data_for_charts|json_script:'data-for-charts'}}
+{{ context.state_name|json_script:'state-name' }}
+<script>
+  const detailStateData = JSON.parse(
+    document.getElementById('data-for-charts').textContent
+  );
+  const stateName = JSON.parse(
+      document.getElementById('state-name').textContent
+  );
+</script>
+<script src="https://www.amcharts.com/lib/4/core.js"></script>
+<script src="https://www.amcharts.com/lib/4/maps.js"></script>
+<script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+<script src="https://www.amcharts.com/lib/4/lang/pt_BR.js"></script>
+{% comment %} {% with 'js/states/'|add:context.state_uf|add:'.js' as state_javascript_file %}
+<script src="{% static state_javascript_file %}"></script>
+{% endwith %} {% endcomment %}
+<script src="{% static 'js/state.js' %}"></script>
+{% endblock %}

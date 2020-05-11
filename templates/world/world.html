@@ -1,0 +1,48 @@
+{% extends "../base.html" %} 
+{% load static %} 
+{% load humanize %} 
+{% block title %} Mundo {% endblock %}
+{% block content %}
+<h1 class="text-center">Covid-19 no mundo</h1>
+<small class="text-center">Dica: Clique em uma legenda do gráfico para apagar a linha.</small>
+{% comment %} <div class="chart-container">
+  <canvas id="chart"></canvas>
+</div> {% endcomment %}
+<div class="chart-container">
+  <canvas id="chart-2"></canvas>
+</div>
+{% comment %} <div class="chart-container">
+  <canvas id="chart-2"></canvas>
+</div>
+<div class="chart-container">
+  <canvas id="chart-3"></canvas>
+</div>
+<table class="table table-striped mt-4">
+  <caption>Os nomes dos países estão em inglês devido aos dados recebidos da API</caption>
+  <thead>
+    <tr>
+      <th scole="col">País</th>
+      <th scole="col">Casos</th>
+      <th scole="col">Mortes</th>
+      <th scole="col">Letalidade</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for country in countries %}
+    <tr scope="row">
+      <td>{{ country.country }}</td>
+      <td>{{ country.confirmed|intcomma }}</td>
+      <td>{{ country.deaths|intcomma }}</td>
+      <td>{{ country.lethality|floatformat:2 }} %</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table> {% endcomment %}
+<p class="h3 text-center mb-5 py-5">Observação: esta área está em manutenção e os dados totais por país ainda serão apresentados</p>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+{{ totals_data|json_script:"totals-data" }}
+<script>
+  const totalsData = JSON.parse(document.getElementById('totals-data').textContent);
+</script>
+<script src="{% static 'js/world.js' %}"></script>
+{% endblock %}
