@@ -495,11 +495,15 @@ function createChoroplethMapChart(dataForMapChart) {
   // Set up custom heat map legend labels using axis ranges
   var minRange = heatLegend.valueAxis.axisRanges.create();
   minRange.value = heatLegend.minValue;
-  minRange.label.text = `${minValueMapBr}`.replace('.', ',');
+  minRange.label.text = `${minValueMapBr}`
+    .replace('.', ',')
+    .replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 
   var maxRange = heatLegend.valueAxis.axisRanges.create();
   maxRange.value = heatLegend.maxValue;
-  maxRange.label.text = `${maxValueMapBr}`.replace('.', ',');
+  maxRange.label.text = `${maxValueMapBr}`
+    .replace('.', ',')
+    .replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 
   // Blank out internal heat legend value axis labels
   heatLegend.valueAxis.renderer.labels.template.adapter.add('text', function (
