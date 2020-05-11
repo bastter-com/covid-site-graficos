@@ -562,6 +562,7 @@ am4core.ready(function () {
   am4core.useTheme(am4themes_animated);
   // Themes end
 
+  // Try to create the two maps above in bubble form
   createChoroplethMapChart(dataForFirstMapChart);
 
   createChoroplethMapChart(dataForSecondMapChart);
