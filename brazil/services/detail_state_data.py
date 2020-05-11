@@ -2,20 +2,29 @@ from brazil.models import StateData
 
 
 def get_state_detail(uf):
-    queryset = StateData.objects.filter(state=uf.upper(), confirmed__gt=0).order_by(
-        "date"
-    )
+    """
+    Get data of a specific state.
+    """
+    queryset = StateData.objects.filter(
+        state=uf.upper(), confirmed__gt=0
+    ).order_by("date")
 
     return queryset
 
 
 def get_last_update_date(uf):
+    """
+    Get the last updated data of one UF.
+    """
     last_update = StateData.objects.filter(state=uf.upper()).last().date
 
     return last_update
 
 
 def get_state_name(uf):
+    """
+    Get the state name using the UF name.
+    """
     states_dict = {
         "AM": "Amazonas",
         "PA": "Pará",
@@ -52,6 +61,9 @@ def get_state_name(uf):
 
 
 def prepare_data_for_table(queryset):
+    """
+    Get and process the data for table of detailed state data.
+    """
 
     data_for_table = list()
     for daily_data in queryset:
@@ -62,14 +74,20 @@ def prepare_data_for_table(queryset):
                 "date": daily_data.date.strftime("%d/%m"),
                 "confirmed_rate_by_100k_pop": round(
                     (
-                        (daily_data.confirmed / daily_data.estimated_population_2019)
+                        (
+                            daily_data.confirmed
+                            / daily_data.estimated_population_2019
+                        )
                         * 100000
                     ),
                     2,
                 ),
                 "deaths_rate_by_100k_pop": round(
                     (
-                        (daily_data.deaths / daily_data.estimated_population_2019)
+                        (
+                            daily_data.deaths
+                            / daily_data.estimated_population_2019
+                        )
                         * 100000
                     ),
                     2,
@@ -81,6 +99,9 @@ def prepare_data_for_table(queryset):
 
 
 def prepare_data_for_charts(queryset):
+    """
+    Get and process data for state chats at detail endpoint.
+    """
     confirmed = [data.confirmed for data in queryset]
     deaths = [data.deaths for data in queryset]
     new_confirmed = [
@@ -89,7 +110,8 @@ def prepare_data_for_charts(queryset):
     ]
     new_confirmed.insert(0, confirmed[0])
     new_deaths = [
-        day_after - day_before for day_before, day_after in zip(deaths, deaths[1:])
+        day_after - day_before
+        for day_before, day_after in zip(deaths, deaths[1:])
     ]
     new_deaths.insert(0, deaths[0])
     dates = [data.date.strftime("%d/%m") for data in queryset]
@@ -115,6 +137,9 @@ def prepare_data_for_charts(queryset):
 
 
 def get_data_for_template(uf):
+    """
+    A pipeline function to get all data to send to templates.
+    """
     queryset = get_state_detail(uf)
     last_update = get_last_update_date(uf)
     state_name = get_state_name(uf)

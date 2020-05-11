@@ -5,6 +5,9 @@ from django.conf import settings
 
 
 def create_date_list():
+    """
+    A base date list to search for empty data at database.
+    """
     if WorldTotalData.objects.all():
         now = datetime.date.today()
         base_date = datetime.date(2020, 1, 21)
@@ -50,6 +53,9 @@ def base_request(date):
 
 
 def save_data_to_database(date, data):
+    """
+    Save data of whole world data, including all countries.
+    """
     if WorldTotalData.objects.filter(date=date):
         print("This data is already at database")
         return False
@@ -64,6 +70,9 @@ def save_data_to_database(date, data):
 
 
 def search_for_empty_data_to_save_at_totals_data():
+    """
+    Pipeline function to save data to database of whole world data.
+    """
     date_list = create_date_list()
     date_list.reverse()
     for date in date_list:

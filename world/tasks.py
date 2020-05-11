@@ -17,6 +17,9 @@ logger = get_task_logger(__name__)
     ignore_result=True,
 )
 def task_save_totals_data_to_database():
+    """
+    Celery task to save countries data and world total data.
+    """
     search_for_empty_data_to_save_at_totals_data()
     search_for_empty_data_to_save_at_country_data()
     logger.info("Saved totals data to database!")

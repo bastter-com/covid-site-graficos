@@ -3,7 +3,10 @@ from operator import itemgetter
 import datetime
 
 
-def create_base_list():
+def create_base_date_list():
+    """
+    Create a base date list to search on API for new data to put on database.
+    """
     first_date_for_date_list = datetime.date(2020, 2, 24)
     now = StateData.objects.all().order_by("date").last().date
     duration = now - first_date_for_date_list
@@ -15,6 +18,9 @@ def create_base_list():
 
 
 def create_region_dict():
+    """
+    Create a base brazilian regions dict for regions charts for brazil endpoint.
+    """
     return {
         "Norte": 0,
         "Nordeste": 0,
@@ -25,6 +31,9 @@ def create_region_dict():
 
 
 def get_data_for_each_state():
+    """
+    Get each state data making queries at database to plot on front-end brazil endpoint.
+    """
     state_data_query = StateData.objects.all().order_by("date")
     states_data = [data for data in state_data_query]
     uf_query = StateData.objects.values_list("state", flat=True).distinct()
@@ -42,12 +51,16 @@ def get_data_for_each_state():
             dates_by_state.append(state.date.strftime("%d/%m"))
         new_confirmed_by_state = [
             day_after - day_before
-            for day_before, day_after in zip(confirmed_by_state, confirmed_by_state[1:])
+            for day_before, day_after in zip(
+                confirmed_by_state, confirmed_by_state[1:]
+            )
         ]
         new_confirmed_by_state.insert(0, confirmed_by_state[0])
         new_deaths_by_state = [
             day_after - day_before
-            for day_before, day_after in zip(deaths_by_state, deaths_by_state[1:])
+            for day_before, day_after in zip(
+                deaths_by_state, deaths_by_state[1:]
+            )
         ]
         new_deaths_by_state.insert(0, deaths_by_state[0])
         daily_state_data.append(
@@ -74,21 +87,36 @@ def get_data_for_each_state():
                 "estimated_population_2019": state.estimated_population_2019,
                 "cases_per_100k_pop": round(
                     (
-                        (confirmed_by_state[-1] / state.estimated_population_2019)
+                        (
+                            confirmed_by_state[-1]
+                            / state.estimated_population_2019
+                        )
                         * 100000
                     ),
                     2,
                 ),
                 "deaths_per_100k_pop": round(
-                    ((deaths_by_state[-1] / state.estimated_population_2019) * 100000),
+                    (
+                        (deaths_by_state[-1] / state.estimated_population_2019)
+                        * 100000
+                    ),
                     2,
                 ),
                 "cases_rate_per_100k_pop": [
-                    round(((confirmed / state.estimated_population_2019) * 100000), 2)
+                    round(
+                        (
+                            (confirmed / state.estimated_population_2019)
+                            * 100000
+                        ),
+                        2,
+                    )
                     for confirmed in confirmed_by_state
                 ],
                 "deaths_rate_per_100k_pop": [
-                    round(((deaths / state.estimated_population_2019) * 100000), 2)
+                    round(
+                        ((deaths / state.estimated_population_2019) * 100000),
+                        2,
+                    )
                     for deaths in deaths_by_state
                 ],
             }
@@ -97,7 +125,7 @@ def get_data_for_each_state():
         daily_state_data, key=itemgetter("total_cases"), reverse=True
     )
 
-    dates_list_base_for_states_map = create_base_list()
+    dates_list_base_for_states_map = create_base_date_list()
     dates_list_base_for_states_map = [
         date.strftime("%d/%m") for date in dates_list_base_for_states_map
     ]
@@ -146,8 +174,12 @@ def get_data_for_each_state():
         region = state_and_region[uf]
         region_confirmed[region] += state["confirmed"][-1]
         region_deaths[region] += state["deaths"][-1]
-        region_confirmed_100k_pop_rate[region] += state["cases_rate_per_100k_pop"][-1]
-        region_deaths_100k_pop_rate[region] += state["deaths_rate_per_100k_pop"][-1]
+        region_confirmed_100k_pop_rate[region] += state[
+            "cases_rate_per_100k_pop"
+        ][-1]
+        region_deaths_100k_pop_rate[region] += state[
+            "deaths_rate_per_100k_pop"
+        ][-1]
 
     return (
         daily_state_data,
@@ -160,7 +192,14 @@ def get_data_for_each_state():
 
 
 def get_data_day_zero_cases():
-    length_of_days = len(StateData.objects.filter(confirmed__gte=1000, state="SP"))
+    """
+    Get data only of states with more than 1000 cases of Covid-19.
+    This data will be plot on front-end application on charts
+    'number of events after case number 1000'.
+    """
+    length_of_days = len(
+        StateData.objects.filter(confirmed__gte=1000, state="SP")
+    )
     x_axis_days = [day for day in range(1, length_of_days + 1)]
     queryset = StateData.objects.filter(confirmed__gte=1000).order_by(
         "date", "confirmed"
@@ -185,17 +224,28 @@ def get_data_day_zero_cases():
                 "confirmed_day_0": confirmed_day_0,
                 "deaths_day_0": deaths_day_0,
                 "confirmed_rate_by_100k_pop": [
-                    round(((confirmed / state.estimated_population_2019) * 100000), 2)
+                    round(
+                        (
+                            (confirmed / state.estimated_population_2019)
+                            * 100000
+                        ),
+                        2,
+                    )
                     for confirmed in confirmed_day_0
                 ],
                 "deaths_rate_by_100k_pop": [
-                    round(((deaths / state.estimated_population_2019) * 100000), 2)
+                    round(
+                        ((deaths / state.estimated_population_2019) * 100000),
+                        2,
+                    )
                     for deaths in deaths_day_0
                 ],
                 "total_cases": confirmed_day_0[-1],
                 "total_deaths": deaths_day_0[-1],
             }
         )
-    data_day_0 = sorted(data_day_0, key=itemgetter("total_cases"), reverse=True)
+    data_day_0 = sorted(
+        data_day_0, key=itemgetter("total_cases"), reverse=True
+    )
 
     return (data_day_0, x_axis_days)

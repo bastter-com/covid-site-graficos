@@ -2,6 +2,9 @@ from world.models import CountryData
 
 
 def get_daily_data_for_brazil():
+    """
+    Get info to brazilian data to plot the first charts of brazil endpoint.
+    """
     brazil_queryset = CountryData.objects.filter(
         country="Brazil", confirmed__gt=0
     ).order_by("date")
@@ -9,13 +12,17 @@ def get_daily_data_for_brazil():
     confirmed_brazil = [data.confirmed for data in brazil_queryset]
     new_confirmed = [
         day_after - day_before
-        for day_before, day_after in zip(confirmed_brazil, confirmed_brazil[1:])
+        for day_before, day_after in zip(
+            confirmed_brazil, confirmed_brazil[1:]
+        )
     ]
     new_confirmed.insert(0, confirmed_brazil[0])
     recovered_brazil = [data.recovered for data in brazil_queryset]
     new_recovered = [
         day_after - day_before
-        for day_before, day_after in zip(recovered_brazil, recovered_brazil[1:])
+        for day_before, day_after in zip(
+            recovered_brazil, recovered_brazil[1:]
+        )
     ]
     new_recovered.insert(0, recovered_brazil[0])
     deaths_brazil = [data.deaths for data in brazil_queryset]

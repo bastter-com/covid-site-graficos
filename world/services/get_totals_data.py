@@ -2,6 +2,9 @@ from world.models import WorldTotalData
 
 
 def get_totals_data():
+    """
+    Get all data to send to endpoint of world data.
+    """
     queryset = WorldTotalData.objects.all().order_by("date")
     total_confirmed = [data.confirmed for data in queryset]
     new_confirmed = [

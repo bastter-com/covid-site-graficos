@@ -7,19 +7,26 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='StateData',
+            name="StateData",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('state', models.CharField(max_length=30)),
-                ('estimated_population', models.IntegerField()),
-                ('confirmed', models.IntegerField()),
-                ('date', models.DateTimeField()),
-                ('deaths', models.IntegerField()),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("state", models.CharField(max_length=30)),
+                ("estimated_population", models.IntegerField()),
+                ("confirmed", models.IntegerField()),
+                ("date", models.DateTimeField()),
+                ("deaths", models.IntegerField()),
             ],
         ),
     ]

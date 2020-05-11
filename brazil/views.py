@@ -1,11 +1,18 @@
 from django.shortcuts import render
-from brazil.services import data_states_maps, data_brazil_charts, detail_state_data
+from brazil.services import (
+    data_states_maps,
+    data_brazil_charts,
+    detail_state_data,
+)
 from world.models import CountryData
 from operator import itemgetter
 import datetime
 
 
 def brazil(request):
+    """
+    View function for endpoint /brasil/
+    """
 
     (
         daily_state_data,
@@ -41,6 +48,9 @@ def brazil(request):
 
 
 def state(request, uf):
+    """
+    View function for endpoint /<str:uf>/
+    """
 
     total_data = detail_state_data.get_data_for_template(uf)
 

@@ -64,7 +64,9 @@ def create_date_list():
                     first_date = list_of_dates_to_check[index - 1]
                     index = list_of_dates_to_check.index(first_date)
                     first_date = first_date.strftime("%Y-%m-%d")
-                    list_of_dates_to_save_data = list_of_dates_to_check[: index + 1]
+                    list_of_dates_to_save_data = list_of_dates_to_check[
+                        : index + 1
+                    ]
                     break
                 else:
                     first_date = list_of_dates_to_check[0].strftime("%Y-%m-%d")
@@ -96,6 +98,9 @@ def base_request(state, date):
 
 
 def save_data_to_database(state, data, date):
+    """
+    Save data to database if it doesn't exist yet.
+    """
     if StateData.objects.filter(state=state, date=date):
         print("This data is already at database")
         return False
@@ -111,6 +116,9 @@ def save_data_to_database(state, data, date):
 
 
 def fix_empty_date_registers():
+    """
+    Create first registers of each state when they don't have data yet.
+    """
     dates_list_base_for_states_maps = create_base_list()[:-5]
     uf_list = create_list_of_uf()
     for date in dates_list_base_for_states_maps:
@@ -127,6 +135,9 @@ def fix_empty_date_registers():
 
 
 def search_for_empty_data_to_save():
+    """
+    Pipeline function to get non existing data and save at database.
+    """
     date_list = create_date_list()
     date_list.reverse()
     state_list = create_list_of_uf()
@@ -134,7 +145,7 @@ def search_for_empty_data_to_save():
         for state in state_list:
             request = base_request(state, date)
             print(f"{date} - {state}")
-            sleep(4)
+            sleep(5)
             if request["results"]:
                 state_data = request["results"][-1]
                 if state_data["place_type"] == "state":

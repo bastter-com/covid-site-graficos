@@ -6,18 +6,16 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('world', '0003_countrydata'),
+        ("world", "0003_countrydata"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='countrydata',
-            name='date',
-            field=models.DateField(),
+            model_name="countrydata", name="date", field=models.DateField(),
         ),
         migrations.AlterField(
-            model_name='worldtotaldata',
-            name='date',
+            model_name="worldtotaldata",
+            name="date",
             field=models.DateField(unique=True),
         ),
     ]

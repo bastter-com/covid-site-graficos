@@ -12,5 +12,8 @@ logger = get_task_logger(__name__)
     ignore_result=True,
 )
 def task_save_br_data_to_database():
+    """
+    Celery task to save states data to database.
+    """
     search_for_empty_data_to_save()
-    logger.info("Saved BR data to database!")
+    logger.info("Saved BR states data to database!")

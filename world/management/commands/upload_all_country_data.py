@@ -51,4 +51,6 @@ class Command(BaseCommand):
                     active=active,
                     date=date,
                 )
-            self.stdout.write(f"Data of {csv_file} succesfully uploaded to database")
+            self.stdout.write(
+                f"Data of {csv_file} succesfully uploaded to database"
+            )

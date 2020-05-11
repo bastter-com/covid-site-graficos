@@ -5,6 +5,9 @@ from django.conf import settings
 
 
 def create_countries_names_list():
+    """
+    Create a list of countries translated names.
+    """
 
     countries_translated = {
         "USA": "Estados Unidos",
@@ -148,6 +151,9 @@ def create_countries_names_list():
 
 
 def create_date_list():
+    """
+    Create a base date list to search for empty data. 
+    """
     if CountryData.objects.all():
         now = datetime.date.today()
         base_date = datetime.date(2020, 1, 21)
@@ -158,7 +164,9 @@ def create_date_list():
         last_date_in_database = CountryData.objects.latest("date").date
         for index, date in enumerate(list_of_dates_to_check):
             if date == last_date_in_database:
-                list_of_dates_to_save_data = list_of_dates_to_check[: index + 2]
+                list_of_dates_to_save_data = list_of_dates_to_check[
+                    : index + 2
+                ]
                 break
     else:
         now = datetime.date.today()
@@ -171,6 +179,9 @@ def create_date_list():
 
 
 def base_request(date, country):
+    """
+    The base request to get countries data.
+    """
     url = "https://covid-19-data.p.rapidapi.com/report/country/name"
     params = {
         "date-format": "YYYY-MM-DD",
@@ -187,6 +198,9 @@ def base_request(date, country):
 
 
 def save_data_to_database(date, data):
+    """
+    Save data in database of each country.
+    """
     countries_list = create_countries_names_list()
     if CountryData.objects.filter(date=date, country=data["country"]):
         print("This data is already at database")
@@ -197,8 +211,12 @@ def save_data_to_database(date, data):
         date=data["date"],
         latitude=data["latitude"],
         longitude=data["longitude"],
-        confirmed=sum([province["confirmed"] for province in data["provinces"]]),
-        recovered=sum([province["recovered"] for province in data["provinces"]]),
+        confirmed=sum(
+            [province["confirmed"] for province in data["provinces"]]
+        ),
+        recovered=sum(
+            [province["recovered"] for province in data["provinces"]]
+        ),
         deaths=sum([province["deaths"] for province in data["provinces"]]),
         active=sum([province["active"] for province in data["provinces"]]),
     )
@@ -206,6 +224,9 @@ def save_data_to_database(date, data):
 
 
 def search_for_empty_data_to_save_at_country_data():
+    """
+    Pipeline function to save data at cointry database table.
+    """
     date_list = create_date_list()
     date_list.reverse()
     countries_list = create_countries_names_list()
