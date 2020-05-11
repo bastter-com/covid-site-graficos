@@ -5,8 +5,6 @@ from brazil.services import (
     detail_state_data,
 )
 from world.models import CountryData
-from operator import itemgetter
-import datetime
 
 
 def brazil(request):

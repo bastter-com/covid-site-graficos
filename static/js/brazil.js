@@ -410,7 +410,7 @@ let chartSixteen = createDoughnutChart(
   'Taxa de Mortes por 100 mil habitantes por Região'
 );
 
-function createMapChart(dataForMapChart) {
+function createChoroplethMapChart(dataForMapChart) {
   // Create map instance
   var chart = am4core.create(dataForMapChart['id'], am4maps.MapChart);
   chart.maxZoomLevel = 1;
@@ -558,13 +558,13 @@ am4core.ready(function () {
   am4core.useTheme(am4themes_animated);
   // Themes end
 
-  createMapChart(dataForFirstMapChart);
+  createChoroplethMapChart(dataForFirstMapChart);
 
-  createMapChart(dataForSecondMapChart);
+  createChoroplethMapChart(dataForSecondMapChart);
 
-  createMapChart(dataForThirdMapChart);
+  createChoroplethMapChart(dataForThirdMapChart);
 
-  createMapChart(dataForFourthMapChart);
+  createChoroplethMapChart(dataForFourthMapChart);
 });
 
 window.onload = function () {
