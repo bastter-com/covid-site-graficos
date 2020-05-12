@@ -4,7 +4,7 @@ from requests.packages.urllib3.util.retry import Retry
 from ..models import StateData
 import datetime
 from time import sleep
-from brazil.services.data_states_maps import create_base_list
+from brazil.services.data_states_maps import create_base_date_list
 
 
 def create_list_of_uf():
@@ -119,7 +119,7 @@ def fix_empty_date_registers():
     """
     Create first registers of each state when they don't have data yet.
     """
-    dates_list_base_for_states_maps = create_base_list()[:-5]
+    dates_list_base_for_states_maps = create_base_date_list()[:-5]
     uf_list = create_list_of_uf()
     for date in dates_list_base_for_states_maps:
         for uf in uf_list:
