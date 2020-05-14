@@ -5,6 +5,7 @@ from ..models import StateData
 import datetime
 from time import sleep
 from brazil.services.data_states_maps import create_base_date_list
+from city.models import CityData
 
 
 def create_list_of_uf():
@@ -115,6 +116,43 @@ def save_data_to_database(state, data, date):
     return True
 
 
+def save_cities_data_to_database(state, data, date):
+    """
+    Save cities data to database if it is the last updated data.
+    """
+    last_date_with_data = CityData.objects.filter(date=date).last()
+    if last_date_with_data:
+        date = last_date_with_data.date
+    if date != last_date_with_data:
+        for city in data:
+            state_to_database = StateData.objects.filter(state=state).last()
+            existing_city_or_not = CityData.objects.filter(
+                city_ibge_code=city["city_ibge_code"]
+            )
+            if existing_city_or_not:
+                existing_city_or_not.delete()
+            print(city["city"])
+            if city["city_ibge_code"] and city["confirmed"]:
+                CityData.objects.create(
+                    state=city["state"],
+                    city=city["city"],
+                    city_ibge_code=city["city_ibge_code"],
+                    confirmed=city["confirmed"],
+                    confirmed_per_100k_inhabitants=city[
+                        "confirmed_per_100k_inhabitants"
+                    ],
+                    date=city["date"],
+                    death_rate=city["death_rate"],
+                    deaths=city["deaths"],
+                    estimated_population_2019=city[
+                        "estimated_population_2019"
+                    ],
+                )
+                print(f"Data of {date} -> {state} - {city} saved at database!")
+        return True
+    return False
+
+
 def fix_empty_date_registers():
     """
     Create first registers of each state when they don't have data yet.
@@ -157,5 +195,9 @@ def search_for_empty_data_to_save():
                         ],
                     }
                     save_data_to_database(state, data, date)
+                if request["results"][-1]["is_last"]:
+                    data = request["results"][:-1]
+                    save_cities_data_to_database(state, data, date)
+
             else:
                 print("This state/date pair haven't data to save yet")
