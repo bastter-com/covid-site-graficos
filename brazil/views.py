@@ -6,6 +6,7 @@ from brazil.services import (
     get_cities_data_for_detail_state_page,
 )
 from world.models import CountryData
+import json
 
 
 def brazil(request):
@@ -59,6 +60,9 @@ def state(request, uf):
 
     data_for_charts = total_data["data_for_charts"]
 
+    # with open(f"static/json/{uf.upper()}.json") as json_file:
+    #     map_geojson = json.load(json_file)
+
     return render(
         request,
         "brazil/state.html",
@@ -66,5 +70,6 @@ def state(request, uf):
             "context": total_data,
             "data_for_charts": data_for_charts,
             "cities_data": cities_data,
+            # "map_geojson": map_geojson,
         },
     )

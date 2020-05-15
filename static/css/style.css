@@ -66,4 +66,9 @@ footer .container p {
   .geochart {
     font-size: 18px;
   }
+
+  .chart-nav-link {
+    font-size: 12px;
+    padding: 3px;
+  }
 }

@@ -1,4 +1,5 @@
 const chartNavLinks = document.getElementsByClassName('chart-nav-link');
+let mapChartTitle = document.getElementById('geochart-title');
 
 $('tbody').each(function () {
   var list = $(this).children('tr');
@@ -227,30 +228,34 @@ const dataForFirstMapChart = {
   citiesData: citiesData,
   dataToShowOnMapChart: 'confirmed',
   hoverColor: '#075f85',
+  title: 'Casos por município',
 };
 
 const dataForSecondMapChart = {
-  id: 'chart-map-2',
+  id: 'chart-map-1',
   colorIndex: 1,
   citiesData: citiesData,
   dataToShowOnMapChart: 'deaths',
   hoverColor: '#075f85',
+  title: 'Mortes por município',
 };
 
 const dataForThirdMapChart = {
-  id: 'chart-map-3',
+  id: 'chart-map-1',
   colorIndex: 1,
   citiesData: citiesData,
   dataToShowOnMapChart: 'confirmed_per_100k_inhabitants',
   hoverColor: '#075f85',
+  title: 'Casos por 100 mil habitantes por município',
 };
 
 const dataForFourthMapChart = {
-  id: 'chart-map-4',
+  id: 'chart-map-1',
   colorIndex: 1,
   citiesData: citiesData,
   dataToShowOnMapChart: 'death_per_100k_inhabitants',
   hoverColor: '#075f85',
+  title: 'Mortes por 100 mil habitantes por município',
 };
 
 am4core.ready(function () {
@@ -261,11 +266,39 @@ am4core.ready(function () {
   // Try to create the two maps above in bubble form
   createChoroplethMapChart(dataForFirstMapChart);
 
-  createChoroplethMapChart(dataForSecondMapChart);
-
-  createChoroplethMapChart(dataForThirdMapChart);
-
-  createChoroplethMapChart(dataForFourthMapChart);
+  for (let i = 0; i < chartNavLinks.length; i++) {
+    chartNavLinks[i].addEventListener('click', () => {
+      if (chartNavLinks[i].innerHTML === 'Casos') {
+        chartNavLinks[i].classList.add('active');
+        chartNavLinks[i + 1].classList.remove('active');
+        chartNavLinks[i + 2].classList.remove('active');
+        chartNavLinks[i + 3].classList.remove('active');
+        createChoroplethMapChart(dataForFirstMapChart);
+        mapChartTitle.innerHTML = 'Casos por município';
+      } else if (chartNavLinks[i].innerHTML === 'Mortes') {
+        chartNavLinks[i].classList.add('active');
+        chartNavLinks[i - 1].classList.remove('active');
+        chartNavLinks[i + 1].classList.remove('active');
+        chartNavLinks[i + 2].classList.remove('active');
+        createChoroplethMapChart(dataForSecondMapChart);
+        mapChartTitle.innerHTML = 'Mortes por município';
+      } else if (chartNavLinks[i].innerHTML === 'Taxa de casos') {
+        chartNavLinks[i].classList.add('active');
+        chartNavLinks[i + 1].classList.remove('active');
+        chartNavLinks[i - 1].classList.remove('active');
+        chartNavLinks[i - 2].classList.remove('active');
+        createChoroplethMapChart(dataForThirdMapChart);
+        mapChartTitle.innerHTML = 'Casos por 100 mil habitantes por município';
+      } else if (chartNavLinks[i].innerHTML === 'Taxa de mortes') {
+        chartNavLinks[i].classList.add('active');
+        chartNavLinks[i - 1].classList.remove('active');
+        chartNavLinks[i - 2].classList.remove('active');
+        chartNavLinks[i - 3].classList.remove('active');
+        createChoroplethMapChart(dataForFourthMapChart);
+        mapChartTitle.innerHTML = 'Mortes por 100 mil habitantes por município';
+      }
+    });
+  }
 });
 
 window.onload = function () {

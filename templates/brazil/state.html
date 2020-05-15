@@ -69,61 +69,43 @@
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-lg-6 border my-3">
-      <!-- Chart 3 -->
-      <p class="text-center h2 geochart pt-3">
-        Casos por município
-      </p>
-      <small>Dados referentes à última data de atualização</small>
-      <small class="d-block">Dica: passe o mouse ou clique sobre um município para ver os dados</small>
-      <div class="chart-container">
-        <div id="chart-map-1" class="geochartmap"></div>
-      </div>
-    </div>
-    <div class="col-lg-6 border my-3">
-      <!-- Chart 4 -->
-      <p class="text-center h2 geochart pt-3">
-        Mortes por município
-      </p>
-      <small
-        >Dados referentes à última data de atualização (vide tabela
-        abaixo)</small
-      >
-      <small class="d-block">Dica: passe o mouse ou clique sobre um município para ver os dados</small>
-      <div class="chart-container">
-        <div id="chart-map-2" class="geochartmap"></div>
-      </div>
+  <div class="container border my-3">
+    <small>Dados referentes à última data de atualização</small>
+    <small class="d-block">Dica: passe o mouse ou clique sobre um município para ver os dados</small>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a
+          id="chart-one-linear"
+          class="nav-link chart-nav-link linear cases active"
+          >Casos</a
+        >
+      </li>
+      <li class="nav-item">
+        <a id="chart-one-log" class="nav-link chart-nav-link deaths"
+          >Mortes</a
+        >
+      </li>
+      <li class="nav-item">
+        <a id="chart-one-log" class="nav-link chart-nav-link cases100k"
+          >Taxa de casos</a
+        >
+      </li>
+      <li class="nav-item">
+        <a id="chart-one-log" class="nav-link chart-nav-link deaths100k"
+          >Taxa de mortes</a
+        >
+      </li>
+    </ul>
+    <!-- Chart 3 -->
+    <p id="geochart-title" class="text-center h2 geochart pt-3">
+      Casos por município
+    </p>
+    <div class="chart-container">
+      <div id="chart-map-1" class="geochartmap"></div>
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-lg-6 border my-3">
-      <!-- Chart 5 -->
-      <p class="text-center h2 geochart pt-3">
-        Casos / 100 mil habitantes por município
-      </p>
-      <small>Dados referentes à última data de atualização</small>
-      <small class="d-block">Dica: passe o mouse ou clique sobre um município para ver os dados</small>
-      <div class="chart-container">
-        <div id="chart-map-3" class="geochartmap"></div>
-      </div>
-    </div>
-    <div class="col-lg-6 border my-3">
-      <!-- Chart 6 -->
-      <p class="text-center h2 geochart pt-3">
-        Mortes / 100 mil habitantes por município
-      </p>
-      <small
-        >Dados referentes à última data de atualização (vide tabela
-        abaixo)</small
-      >
-      <small class="d-block">Dica: passe o mouse ou clique sobre um município para ver os dados</small>
-      <div class="chart-container">
-        <div id="chart-map-4" class="geochartmap"></div>
-      </div>
-    </div>
-  </div>
+  
 
   <div class="table-responsive mb-5">
     <table class="table table-striped">
@@ -174,12 +156,16 @@
 <script src="https://www.amcharts.com/lib/4/lang/pt_BR.js"></script>
 {% with 'js/states/'|add:context.state_uf|add:'.js' as state_javascript_file %}
 <script src="{% static state_javascript_file %}"></script>
-{% endwith %} 
+{% endwith %}
 {{ cities_data|json_script:'cities-data' }}
+{% comment %} {{ map_geojson|json_script:'map-geojson' }} {% endcomment %}
 <script>
   const citiesData = JSON.parse(
     document.getElementById('cities-data').textContent
   );
+  {% comment %} const mapGeojson = JSON.parse(
+    document.getElementById('map-geojson').textContent
+  ); {% endcomment %}
 </script>
 <script src="{% static 'js/state.js' %}"></script>
 {% endblock %}
