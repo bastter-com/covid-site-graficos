@@ -134,7 +134,9 @@
         <tr>
           <th scope="col">Data</th>
           <th scope="col">Casos</th>
+          <th scope="col">Novos casos</th>
           <th scope="col">Mortes</th>
+          <th scope="col">Novas mortes</th>
           <th scope="col">Casos por 100 mil habitantes</th>
           <th scope="col">Mortes por 100 mil habitantes</th>
         </tr>
@@ -144,7 +146,9 @@
         <tr scope="row">
           <td class="table-data">{{ data.date }}</td>
           <td class="table-data">{{ data.confirmed|intcomma }}</td>
+          <td class="table-data">{{ data.new_cases|intcomma }}</td>
           <td class="table-data">{{ data.deaths|intcomma }}</td>
+          <td class="table-data">{{ data.new_deaths|intcomma }}</td>
           <td class="table-data">{{ data.confirmed_rate_by_100k_pop }}</td>
           <td class="table-data">{{ data.deaths_rate_by_100k_pop }}</td>
         </tr>

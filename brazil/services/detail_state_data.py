@@ -60,7 +60,18 @@ def get_state_name(uf):
     return state
 
 
-def prepare_data_for_table(queryset):
+def get_new_events_numbers(uf, data_to_query):
+    """
+    Get new cases or new deaths for state
+    """
+    queryset = StateData.objects.filter(state=uf.upper(), confirmed__gt=0).values_list(data_to_query, flat=True)
+    data = list(queryset)
+    new_events = [day_after - day_before for day_before, day_after in zip(data, data[1:])]
+    new_events.insert(0, data[0])
+    return new_events
+
+
+def prepare_data_for_table(uf, queryset):
     """
     Get and process the data for table of detailed state data.
     """
@@ -94,6 +105,12 @@ def prepare_data_for_table(queryset):
                 ),
             }
         )
+
+    new_cases = get_new_events_numbers(uf, 'confirmed')
+    new_deaths = get_new_events_numbers(uf, 'deaths')
+    for index, day in enumerate(data_for_table):
+        day['new_cases'] = new_cases[index]
+        day['new_deaths'] = new_deaths[index]
 
     return data_for_table
 
@@ -143,7 +160,7 @@ def get_data_for_template(uf):
     queryset = get_state_detail(uf)
     last_update = get_last_update_date(uf)
     state_name = get_state_name(uf)
-    data_for_table = prepare_data_for_table(queryset)
+    data_for_table = prepare_data_for_table(uf, queryset)
     data_for_charts = prepare_data_for_charts(queryset)
 
     return {
