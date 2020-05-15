@@ -2,6 +2,7 @@ const dataOfFirstTenStates = statesDailyData.slice(0, 12);
 const dataOfFirstTenStatesDayZero = dayZeroData.slice(0, 12);
 const quantityOfDays = datesList.length;
 const chartNavLinks = document.getElementsByClassName('chart-nav-link');
+let mapChartTitle = document.getElementById('geochart-title');
 
 const colorsListForCasesMap = [
   '#856c8b',
@@ -534,7 +535,7 @@ const dataForFirstMapChart = {
 };
 
 const dataForSecondMapChart = {
-  id: 'chart-map-2',
+  id: 'chart-map-1',
   colorIndex: 1,
   statesDailyData: statesDailyData,
   dataToShowOnMapChart: 'total_deaths',
@@ -542,7 +543,7 @@ const dataForSecondMapChart = {
 };
 
 const dataForThirdMapChart = {
-  id: 'chart-map-3',
+  id: 'chart-map-1',
   colorIndex: 1,
   statesDailyData: statesDailyData,
   dataToShowOnMapChart: 'cases_per_100k_pop',
@@ -550,7 +551,7 @@ const dataForThirdMapChart = {
 };
 
 const dataForFourthMapChart = {
-  id: 'chart-map-4',
+  id: 'chart-map-1',
   colorIndex: 1,
   statesDailyData: statesDailyData,
   dataToShowOnMapChart: 'deaths_per_100k_pop',
@@ -565,11 +566,41 @@ am4core.ready(function () {
   // Try to create the two maps above in bubble form
   createChoroplethMapChart(dataForFirstMapChart);
 
-  createChoroplethMapChart(dataForSecondMapChart);
-
-  createChoroplethMapChart(dataForThirdMapChart);
-
-  createChoroplethMapChart(dataForFourthMapChart);
+  for (let i = 0; i < chartNavLinks.length; i++) {
+    chartNavLinks[i].addEventListener('click', () => {
+      if (chartNavLinks[i].innerHTML === 'Casos') {
+        chartNavLinks[i].classList.add('active');
+        chartNavLinks[i + 1].classList.remove('active');
+        chartNavLinks[i + 2].classList.remove('active');
+        chartNavLinks[i + 3].classList.remove('active');
+        createChoroplethMapChart(dataForFirstMapChart);
+        mapChartTitle.innerHTML = 'Casos por Unidade Federativa';
+      } else if (chartNavLinks[i].innerHTML === 'Mortes') {
+        chartNavLinks[i].classList.add('active');
+        chartNavLinks[i - 1].classList.remove('active');
+        chartNavLinks[i + 1].classList.remove('active');
+        chartNavLinks[i + 2].classList.remove('active');
+        createChoroplethMapChart(dataForSecondMapChart);
+        mapChartTitle.innerHTML = 'Mortes por Unidade Federativa';
+      } else if (chartNavLinks[i].innerHTML === 'Taxa de casos') {
+        chartNavLinks[i].classList.add('active');
+        chartNavLinks[i + 1].classList.remove('active');
+        chartNavLinks[i - 1].classList.remove('active');
+        chartNavLinks[i - 2].classList.remove('active');
+        createChoroplethMapChart(dataForThirdMapChart);
+        mapChartTitle.innerHTML =
+          'Casos por 100 mil habitantes por Unidade Federativa';
+      } else if (chartNavLinks[i].innerHTML === 'Taxa de mortes') {
+        chartNavLinks[i].classList.add('active');
+        chartNavLinks[i - 1].classList.remove('active');
+        chartNavLinks[i - 2].classList.remove('active');
+        chartNavLinks[i - 3].classList.remove('active');
+        createChoroplethMapChart(dataForFourthMapChart);
+        mapChartTitle.innerHTML =
+          'Mortes por 100 mil habitantes por Unidade Federativa';
+      }
+    });
+  }
 });
 
 window.onload = function () {

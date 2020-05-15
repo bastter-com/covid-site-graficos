@@ -1,5 +1,6 @@
 {% extends "../base.html" %} {% load static %} {% load humanize %} 
-{% block title %} Brasil {% endblock %} {% block content %}
+{% block title %} Brasil {% endblock %} 
+{% block content %}
 <div class="container">
   <div class="main-info pb-4">
     <h1 class="text-center">Covid-19 no Brasil</h1>
@@ -360,63 +361,34 @@
         <canvas id="chart-16"></canvas>
       </div>
     </div>
-  </div> 
-
-  <div class="row">
-    <div class="col-lg-6 border my-3">
-      <!-- Chart 17 -->
-      <p class="text-center h3 geochart pt-3">
-        Casos por Unidade Federativa
-      </p>
-      <small
-        >Dados referentes à última data de atualização (vide tabela abaixo)</small
-      >
-      <small class="d-block">Dica: passe o mouse ou clique sobre uma UF para ver os dados</small>
-      <div class="chart-container">
-        <div id="chart-map-1" class="geochartmap"></div>
-      </div>
-    </div>
-    <div class="col-lg-6 border my-3">
-      <!-- Chart 18 -->
-      <p class="text-center h3 geochart pt-3">
-        Mortes por Unidade Federativa
-      </p>
-      <small
-        >Dados referentes à última data de atualização (vide tabela abaixo)</small
-      >
-      <small class="d-block">Dica: passe o mouse ou clique sobre uma UF para ver os dados</small>
-      <div class="chart-container">
-        <div id="chart-map-2" class="geochartmap"></div>
-      </div>
-    </div>
   </div>
 
-  <div class="row">
-    <div class="col-lg-6 border my-3">
-      <!-- Chart 19 -->
-      <p class="text-center h3 geochart pt-3">
-        Casos / 100 mil habitantes por Unidade Federativa
-      </p>
-      <small
-        >Dados referentes à última data de atualização (vide tabela abaixo)</small
-      >
-      <small class="d-block">Dica: passe o mouse ou clique sobre uma UF para ver os dados</small>
-      <div class="chart-container">
-        <div id="chart-map-3" class="geochartmap"></div>
-      </div>
-    </div>
-    <div class="col-lg-6 border my-3">
-      <!-- Chart 20 -->
-      <p class="text-center h3 geochart pt-3">
-        Mortes / 100 mil habitantes por Unidade Federativa
-      </p>
-      <small
-        >Dados referentes à última data de atualização (vide tabela abaixo)</small
-      >
-      <small class="d-block">Dica: passe o mouse ou clique sobre uma UF para ver os dados</small>
-      <div class="chart-container">
-        <div id="chart-map-4" class="geochartmap"></div>
-      </div>
+  <div class="container border my-3">
+    <small>Dados referentes à última data de atualização</small>
+    <small class="d-block"
+      >Dica: passe o mouse ou clique sobre uma Unidade Federativa para ver os
+      dados</small
+    >
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link chart-nav-link cases active">Casos</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link chart-nav-link deaths">Mortes</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link chart-nav-link cases100k">Taxa de casos</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link chart-nav-link deaths100k">Taxa de mortes</a>
+      </li>
+    </ul>
+    <!-- Chart 17 -->
+    <p id="geochart-title" class="text-center h2 geochart pt-3">
+      Casos por Unidade Federativa
+    </p>
+    <div class="chart-container">
+      <div id="chart-map-1" class="geochartmap"></div>
     </div>
   </div>
 
