@@ -11,7 +11,7 @@ SECRET_KEY = config("SECRET_KEY")
 DEBUG = config("DEBUG", default=False, cast=bool)
 
 ALLOWED_HOSTS = config(
-    "ALLOWED_HOSTS", default="https://sarscov2br.herokuapp.com/", cast=Csv()
+    "ALLOWED_HOSTS", default="https://covidbr.dev/", cast=Csv()
 )
 
 INSTALLED_APPS = [
