@@ -3,6 +3,7 @@ from brazil.services import (
     data_states_maps,
     data_brazil_charts,
     detail_state_data,
+    get_cities_data_for_detail_state_page,
 )
 from world.models import CountryData
 
@@ -52,10 +53,18 @@ def state(request, uf):
 
     total_data = detail_state_data.get_data_for_template(uf)
 
+    cities_data = get_cities_data_for_detail_state_page.get_cities_data_of_an_uf(
+        uf
+    )
+
     data_for_charts = total_data["data_for_charts"]
 
     return render(
         request,
         "brazil/state.html",
-        {"context": total_data, "data_for_charts": data_for_charts},
+        {
+            "context": total_data,
+            "data_for_charts": data_for_charts,
+            "cities_data": cities_data,
+        },
     )

@@ -527,7 +527,7 @@ function createChoroplethMapChart(dataForMapChart) {
 
 const dataForFirstMapChart = {
   id: 'chart-map-1',
-  colorIndex: 2,
+  colorIndex: 1,
   statesDailyData: statesDailyData,
   dataToShowOnMapChart: 'total_cases',
   hoverColor: '#075f85',
@@ -535,7 +535,7 @@ const dataForFirstMapChart = {
 
 const dataForSecondMapChart = {
   id: 'chart-map-2',
-  colorIndex: 3,
+  colorIndex: 1,
   statesDailyData: statesDailyData,
   dataToShowOnMapChart: 'total_deaths',
   hoverColor: '#7695a3',
@@ -543,7 +543,7 @@ const dataForSecondMapChart = {
 
 const dataForThirdMapChart = {
   id: 'chart-map-3',
-  colorIndex: 0,
+  colorIndex: 1,
   statesDailyData: statesDailyData,
   dataToShowOnMapChart: 'cases_per_100k_pop',
   hoverColor: '#0c7876',

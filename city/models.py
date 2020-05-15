@@ -5,7 +5,7 @@ from brazil.models import StateData
 class CityData(models.Model):
     state = models.CharField(max_length=3)
     city = models.CharField(max_length=80)
-    city_ibge_code = models.CharField(max_length=12)
+    city_ibge_code = models.CharField(max_length=12, unique=True)
     confirmed = models.PositiveIntegerField()
     confirmed_per_100k_inhabitants = models.FloatField()
     date = models.DateField()

@@ -19,7 +19,7 @@
       Álvaro Justen e colaboradores/Brasil.IO.
     </small>
   </div>
-  
+
   <div class="row">
     <div class="col-lg-6 border my-3">
       <!-- Chart 1 -->
@@ -27,10 +27,16 @@
         <small>Dica: clique na legenda para apagar a linha.</small>
         <ul class="nav nav-tabs">
           <li class="nav-item">
-            <a id="chart-one-linear" class="nav-link chart-nav-link linear active">Linear</a>
+            <a
+              id="chart-one-linear"
+              class="nav-link chart-nav-link linear active"
+              >Linear</a
+            >
           </li>
           <li class="nav-item">
-            <a id="chart-one-log" class="nav-link chart-nav-link logarithm">Logarítmica</a>
+            <a id="chart-one-log" class="nav-link chart-nav-link logarithm"
+              >Logarítmica</a
+            >
           </li>
         </ul>
         <div class="chart-container p-0">
@@ -44,10 +50,16 @@
         <small>Dica: clique na legenda para apagar a linha.</small>
         <ul class="nav nav-tabs">
           <li class="nav-item">
-            <a id="chart-two-linear" class="nav-link chart-nav-link linear active">Linear</a>
+            <a
+              id="chart-two-linear"
+              class="nav-link chart-nav-link linear active"
+              >Linear</a
+            >
           </li>
           <li class="nav-item">
-            <a id="chart-two-log" class="nav-link chart-nav-link logarithm">Logarítmica</a>
+            <a id="chart-two-log" class="nav-link chart-nav-link logarithm"
+              >Logarítmica</a
+            >
           </li>
         </ul>
         <div class="chart-container p-0">
@@ -57,17 +69,62 @@
     </div>
   </div>
 
-  <!-- Chart 3-->
-  {% comment %} <p class="text-center h3 geochart">
-    Casos / 100 mil habitantes por Município
-  </p>
-  <small>Dados referentes à última data de atualização</small>
-  <div class="chart-container">
-    <div id="chart-map-1" class="geochartmap"></div>
-  </div> {% endcomment %}
-  <div class="mobile-message-table d-lg-none">
-    <small class="d-block">Dica: mova a tabela abaixo para a direita para ver todos os dados</small>
+  <div class="row">
+    <div class="col-lg-6 border my-3">
+      <!-- Chart 3 -->
+      <p class="text-center h2 geochart pt-3">
+        Casos por município
+      </p>
+      <small>Dados referentes à última data de atualização</small>
+      <small class="d-block">Dica: passe o mouse ou clique sobre um município para ver os dados</small>
+      <div class="chart-container">
+        <div id="chart-map-1" class="geochartmap"></div>
+      </div>
+    </div>
+    <div class="col-lg-6 border my-3">
+      <!-- Chart 4 -->
+      <p class="text-center h2 geochart pt-3">
+        Mortes por município
+      </p>
+      <small
+        >Dados referentes à última data de atualização (vide tabela
+        abaixo)</small
+      >
+      <small class="d-block">Dica: passe o mouse ou clique sobre um município para ver os dados</small>
+      <div class="chart-container">
+        <div id="chart-map-2" class="geochartmap"></div>
+      </div>
+    </div>
   </div>
+
+  <div class="row">
+    <div class="col-lg-6 border my-3">
+      <!-- Chart 5 -->
+      <p class="text-center h2 geochart pt-3">
+        Casos / 100 mil habitantes por município
+      </p>
+      <small>Dados referentes à última data de atualização</small>
+      <small class="d-block">Dica: passe o mouse ou clique sobre um município para ver os dados</small>
+      <div class="chart-container">
+        <div id="chart-map-3" class="geochartmap"></div>
+      </div>
+    </div>
+    <div class="col-lg-6 border my-3">
+      <!-- Chart 6 -->
+      <p class="text-center h2 geochart pt-3">
+        Mortes / 100 mil habitantes por município
+      </p>
+      <small
+        >Dados referentes à última data de atualização (vide tabela
+        abaixo)</small
+      >
+      <small class="d-block">Dica: passe o mouse ou clique sobre um município para ver os dados</small>
+      <div class="chart-container">
+        <div id="chart-map-4" class="geochartmap"></div>
+      </div>
+    </div>
+  </div>
+
   <div class="table-responsive mb-5">
     <table class="table table-striped">
       <caption>
@@ -97,22 +154,28 @@
   </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
-{{ data_for_charts|json_script:'data-for-charts'}}
+{{ data_for_charts|json_script:'data-for-charts'}} 
 {{ context.state_name|json_script:'state-name' }}
 <script>
   const detailStateData = JSON.parse(
     document.getElementById('data-for-charts').textContent
   );
   const stateName = JSON.parse(
-      document.getElementById('state-name').textContent
+    document.getElementById('state-name').textContent
   );
 </script>
 <script src="https://www.amcharts.com/lib/4/core.js"></script>
 <script src="https://www.amcharts.com/lib/4/maps.js"></script>
 <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
 <script src="https://www.amcharts.com/lib/4/lang/pt_BR.js"></script>
-{% comment %} {% with 'js/states/'|add:context.state_uf|add:'.js' as state_javascript_file %}
+{% with 'js/states/'|add:context.state_uf|add:'.js' as state_javascript_file %}
 <script src="{% static state_javascript_file %}"></script>
-{% endwith %} {% endcomment %}
+{% endwith %} 
+{{ cities_data|json_script:'cities-data' }}
+<script>
+  const citiesData = JSON.parse(
+    document.getElementById('cities-data').textContent
+  );
+</script>
 <script src="{% static 'js/state.js' %}"></script>
 {% endblock %}
