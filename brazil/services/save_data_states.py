@@ -148,7 +148,9 @@ def save_cities_data_to_database(state, data, date):
                         "estimated_population_2019"
                     ],
                 )
-                print(f"Data of {date} -> {state} - {city} saved at database!")
+                print(
+                    f"Data of {date} -> {state} - {city['city']} saved at database!"
+                )
         return True
     return False
 
