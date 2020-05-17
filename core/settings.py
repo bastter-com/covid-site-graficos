@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     "brazil",
     "city",
     "world",
+    "widget_tweaks",
 ]
 
 MIDDLEWARE = [

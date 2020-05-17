@@ -1,0 +1,45 @@
+{% extends "../base.html" %} {% load static %} {% load humanize %} 
+{% block title %} Cidades {% endblock %} 
+{% load widget_tweaks %} 
+{% block content %}
+    <h1>Cidades</h1>
+    <p class="text-justify">Selecione uma cidade abaixo para ver seus dados</p>
+    <div class="row mb-5">
+        <div class="col-lg-6">
+            <form action="." method="get">
+                <div class="form-group">
+                    <select class="form-control mb-3" name="select-uf" id="select-uf">
+                    <option>Unidade Federativa</option>
+                    {% for state in states_uf %}
+                    <option val="{{ state.UF }}">{{ state.UF }}</option>
+                    {% endfor %}
+                    </select>
+                    <select class="form-control" name="select-city" id="select-city"> </select>
+                </div>
+            </form> 
+            <button id="search-city-btn" class="btn btn-block btn-primary mb-4">Buscar cidade</button>
+        </div>
+        <div class="col-lg-6">
+        <div class="card bg-light mb-5">
+          <div class="card-header">Dados: <span id="city-data-name"></span> - <span id="city-data-name-uf"></span></div>
+          <div class="card-body">
+            <h5 class="card-title">Dados totais</h5>
+            <ul class="list-group">
+              <li class="list-group-item">
+                Confirmados:
+                <span id="city-data-confirmed"></span>
+              </li>
+              <li class="list-group-item">
+                Mortes: <span id="city-data-deaths"></span>
+              </li>
+            </ul>
+          </div>
+          <div class="card-footer text-muted">
+            <p>Fonte: Secretarias de Saúde das Unidades Federativas, dados tratados por Álvaro Justen e colaboradores/Brasil.IO.</p>
+            <small>Última atualização em <span id="city-data-date"></span></small>
+          </div>
+        </div>
+        </div>
+    </div>
+    <script src="{% static 'js/city.js' %}"></script>
+{% endblock %}

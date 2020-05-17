@@ -64,9 +64,13 @@ def get_new_events_numbers(uf, data_to_query):
     """
     Get new cases or new deaths for state
     """
-    queryset = StateData.objects.filter(state=uf.upper(), confirmed__gt=0).values_list(data_to_query, flat=True)
+    queryset = StateData.objects.filter(
+        state=uf.upper(), confirmed__gt=0
+    ).values_list(data_to_query, flat=True)
     data = list(queryset)
-    new_events = [day_after - day_before for day_before, day_after in zip(data, data[1:])]
+    new_events = [
+        day_after - day_before for day_before, day_after in zip(data, data[1:])
+    ]
     new_events.insert(0, data[0])
     return new_events
 
@@ -106,11 +110,11 @@ def prepare_data_for_table(uf, queryset):
             }
         )
 
-    new_cases = get_new_events_numbers(uf, 'confirmed')
-    new_deaths = get_new_events_numbers(uf, 'deaths')
+    new_cases = get_new_events_numbers(uf, "confirmed")
+    new_deaths = get_new_events_numbers(uf, "deaths")
     for index, day in enumerate(data_for_table):
-        day['new_cases'] = new_cases[index]
-        day['new_deaths'] = new_deaths[index]
+        day["new_cases"] = new_cases[index]
+        day["new_deaths"] = new_deaths[index]
 
     return data_for_table
 

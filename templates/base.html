@@ -130,6 +130,13 @@
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
               <a
+                href="{% url 'cities' %}"
+                class="nav-link {% if navbar == 'cities' %} active {% endif %}"
+                >Cidades</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
                 href="{% url 'states' %}"
                 class="nav-link {% if navbar == 'states' %} active {% endif %}"
                 >Estados</a
