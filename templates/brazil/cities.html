@@ -7,6 +7,7 @@
     <div class="row mb-5">
         <div class="col-lg-6">
             <form action="." method="get">
+                {% csrf_token %}
                 <div class="form-group">
                     <select class="form-control mb-3" name="select-uf" id="select-uf">
                     <option>Unidade Federativa</option>
