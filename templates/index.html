@@ -4,8 +4,8 @@
 {% block title %} Home {% endblock %} 
 {% block content %}
 
-<h1 class="text-center mb-3">
-  Dados sobre a Covid-19 no Brasil e no mundo
+<h1 class="mb-3">
+  Dados sobre a Covid-19 no Brasil
 </h1>
 <div class="row">
   <div class="col-lg-4 mt-3">
@@ -14,8 +14,7 @@
       coronavírus (Sars-Cov-2).
     </p>
     <p class="text-justify">
-      O site apresenta gráficos e tabelas com os dados da pandemia no mundo e no
-      Brasil.
+      O site apresenta gráficos e tabelas com os dados da pandemia no Brasil e nos estados brasileiros.
     </p>
     <div
       class="btn-group btn-group btn-group-lg justify-content-center d-flex mt-4"
@@ -24,7 +23,7 @@
     >
       <a class="btn btn-info" href="{% url 'states' %}">Estados</a>
       <a class="btn btn-info" href="{% url 'brazil' %}">Brasil</a>
-      <a class="btn btn-info" href="{% url 'world' %}">Mundo</a>
+      {% comment %} <a class="btn btn-info" href="{% url 'world' %}">Mundo</a> {% endcomment %}
     </div>
   </div>
   <div class="col-lg-8">
