@@ -36,11 +36,15 @@ $(document).ready(function () {
         console.log(result.city);
         $('#city-data-name').text(result.city);
         $('#city-data-name-uf').text(result.uf);
-        $('#city-data-confirmed').text(result.confirmed);
+        $('#city-data-confirmed').text(
+          `${result.confirmed}`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+        );
         $('#city-data-confirmed-rate').text(
           `${result.cases_rate_per_inhabitants} %`.replace('.', ',')
         );
-        $('#city-data-deaths').text(result.deaths);
+        $('#city-data-deaths').text(
+          `${result.deaths}`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+        );
         $('#city-data-deaths-rate').text(
           `${result.deaths_rate_per_inhabitants} %`.replace('.', ',')
         );
