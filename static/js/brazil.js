@@ -159,21 +159,7 @@ function createChart(chartData) {
 function createDoughnutChart(doughtnutChartData, title) {
   let doughnutChart = {
     type: 'doughnut',
-    data: {
-      datasets: [
-        {
-          data: doughtnutChartData,
-          backgroundColor: [
-            '#856c8b',
-            '#90bd88',
-            '#a4c5c6',
-            '#ffeb99',
-            '#bb3b0e',
-          ],
-        },
-      ],
-      labels: ['Norte', 'Nordeste', 'Sudeste', 'Centro-Oeste', 'Sul'],
-    },
+    data: doughtnutChartData,
     options: {
       responsive: true,
       title: {
@@ -209,6 +195,16 @@ function createDoughnutChart(doughtnutChartData, title) {
     },
   };
   return doughnutChart;
+}
+
+function updateChart(chart, axesType) {
+  chart.options.scales.yAxes[0].type = axesType;
+  chart.update();
+}
+function updateDoughnutChart(chart, dataToUpdateDoughnutChart, title) {
+  chart.options.title.text = title;
+  chart.data = dataToUpdateDoughnutChart;
+  chart.update();
 }
 
 const dataForChartOne = {
@@ -335,37 +331,69 @@ const dataForChartTwelve = {
   labelYAxis: 'Mortes / 100 mil habitantes',
 };
 
-const dataForChartThirteen = [
-  regionCases['Norte'],
-  regionCases['Nordeste'],
-  regionCases['Sudeste'],
-  regionCases['Centro-Oeste'],
-  regionCases['Sul'],
-];
+const dataForChartThirteen = {
+  datasets: [
+    {
+      data: [
+        regionCases['Norte'],
+        regionCases['Nordeste'],
+        regionCases['Sudeste'],
+        regionCases['Centro-Oeste'],
+        regionCases['Sul'],
+      ],
+      backgroundColor: ['#856c8b', '#90bd88', '#a4c5c6', '#ffeb99', '#bb3b0e'],
+    },
+  ],
+  labels: ['Norte', 'Nordeste', 'Sudeste', 'Centro-Oeste', 'Sul'],
+};
 
-const dataForChartFourteen = [
-  regionDeaths['Norte'],
-  regionDeaths['Nordeste'],
-  regionDeaths['Sudeste'],
-  regionDeaths['Centro-Oeste'],
-  regionDeaths['Sul'],
-];
+const dataForChartFourteen = {
+  datasets: [
+    {
+      data: [
+        regionDeaths['Norte'],
+        regionDeaths['Nordeste'],
+        regionDeaths['Sudeste'],
+        regionDeaths['Centro-Oeste'],
+        regionDeaths['Sul'],
+      ],
+      backgroundColor: ['#856c8b', '#90bd88', '#a4c5c6', '#ffeb99', '#bb3b0e'],
+    },
+  ],
+  labels: ['Norte', 'Nordeste', 'Sudeste', 'Centro-Oeste', 'Sul'],
+};
 
-const dataForChartFifteen = [
-  regionCases100kPop['Norte'],
-  regionCases100kPop['Nordeste'],
-  regionCases100kPop['Sudeste'],
-  regionCases100kPop['Centro-Oeste'],
-  regionCases100kPop['Sul'],
-];
+const dataForChartFifteen = {
+  datasets: [
+    {
+      data: [
+        regionCases100kPop['Norte'],
+        regionCases100kPop['Nordeste'],
+        regionCases100kPop['Sudeste'],
+        regionCases100kPop['Centro-Oeste'],
+        regionCases100kPop['Sul'],
+      ],
+      backgroundColor: ['#856c8b', '#90bd88', '#a4c5c6', '#ffeb99', '#bb3b0e'],
+    },
+  ],
+  labels: ['Norte', 'Nordeste', 'Sudeste', 'Centro-Oeste', 'Sul'],
+};
 
-const dataForChartSixteen = [
-  regionDeaths100kPop['Norte'],
-  regionDeaths100kPop['Nordeste'],
-  regionDeaths100kPop['Sudeste'],
-  regionDeaths100kPop['Centro-Oeste'],
-  regionDeaths100kPop['Sul'],
-];
+const dataForChartSixteen = {
+  datasets: [
+    {
+      data: [
+        regionDeaths100kPop['Norte'],
+        regionDeaths100kPop['Nordeste'],
+        regionDeaths100kPop['Sudeste'],
+        regionDeaths100kPop['Centro-Oeste'],
+        regionDeaths100kPop['Sul'],
+      ],
+      backgroundColor: ['#856c8b', '#90bd88', '#a4c5c6', '#ffeb99', '#bb3b0e'],
+    },
+  ],
+  labels: ['Norte', 'Nordeste', 'Sudeste', 'Centro-Oeste', 'Sul'],
+};
 
 let chartOne = createChart(dataForChartOne);
 
@@ -565,42 +593,6 @@ am4core.ready(function () {
 
   // Try to create the two maps above in bubble form
   createChoroplethMapChart(dataForFirstMapChart);
-
-  for (let i = 0; i < chartNavLinks.length; i++) {
-    chartNavLinks[i].addEventListener('click', () => {
-      if (chartNavLinks[i].innerHTML === 'Casos') {
-        chartNavLinks[i].classList.add('active');
-        chartNavLinks[i + 1].classList.remove('active');
-        chartNavLinks[i + 2].classList.remove('active');
-        chartNavLinks[i + 3].classList.remove('active');
-        createChoroplethMapChart(dataForFirstMapChart);
-        mapChartTitle.innerHTML = 'Casos por Unidade Federativa';
-      } else if (chartNavLinks[i].innerHTML === 'Mortes') {
-        chartNavLinks[i].classList.add('active');
-        chartNavLinks[i - 1].classList.remove('active');
-        chartNavLinks[i + 1].classList.remove('active');
-        chartNavLinks[i + 2].classList.remove('active');
-        createChoroplethMapChart(dataForSecondMapChart);
-        mapChartTitle.innerHTML = 'Mortes por Unidade Federativa';
-      } else if (chartNavLinks[i].innerHTML === 'Taxa de casos') {
-        chartNavLinks[i].classList.add('active');
-        chartNavLinks[i + 1].classList.remove('active');
-        chartNavLinks[i - 1].classList.remove('active');
-        chartNavLinks[i - 2].classList.remove('active');
-        createChoroplethMapChart(dataForThirdMapChart);
-        mapChartTitle.innerHTML =
-          'Casos por 100 mil habitantes por Unidade Federativa';
-      } else if (chartNavLinks[i].innerHTML === 'Taxa de mortes') {
-        chartNavLinks[i].classList.add('active');
-        chartNavLinks[i - 1].classList.remove('active');
-        chartNavLinks[i - 2].classList.remove('active');
-        chartNavLinks[i - 3].classList.remove('active');
-        createChoroplethMapChart(dataForFourthMapChart);
-        mapChartTitle.innerHTML =
-          'Mortes por 100 mil habitantes por Unidade Federativa';
-      }
-    });
-  }
 });
 
 window.onload = function () {
@@ -666,24 +658,21 @@ window.onload = function () {
 
   // chart thirteen
   var ctxThirteen = document.getElementById('chart-13').getContext('2d');
-  window.myLine = new Chart(ctxThirteen, chartThirteen);
+  var chartThirteenInline = new Chart(ctxThirteen, chartThirteen);
+  window.myLine = chartThirteenInline;
 
-  // chart fourteen
-  var ctxFourteen = document.getElementById('chart-14').getContext('2d');
-  window.myLine = new Chart(ctxFourteen, chartFourteen);
+  // // chart fourteen
+  // var ctxFourteen = document.getElementById('chart-14').getContext('2d');
+  // window.myLine = new Chart(ctxFourteen, chartFourteen);
 
-  // chart fifteen
-  var ctxFifteen = document.getElementById('chart-15').getContext('2d');
-  window.myLine = new Chart(ctxFifteen, chartFifteen);
+  // // chart fifteen
+  // var ctxFifteen = document.getElementById('chart-15').getContext('2d');
+  // window.myLine = new Chart(ctxFifteen, chartFifteen);
 
-  // chart sixteen
-  var ctxSixteen = document.getElementById('chart-16').getContext('2d');
-  window.myLine = new Chart(ctxSixteen, chartSixteen);
+  // // chart sixteen
+  // var ctxSixteen = document.getElementById('chart-16').getContext('2d');
+  // window.myLine = new Chart(ctxSixteen, chartSixteen);
 
-  function updateChart(chart, axesType) {
-    chart.options.scales.yAxes[0].type = axesType;
-    chart.update();
-  }
   for (let i = 0; i < chartNavLinks.length; i++) {
     chartNavLinks[i].addEventListener('click', () => {
       if (chartNavLinks[i].classList.contains('linear')) {
@@ -777,6 +766,73 @@ window.onload = function () {
           case '12':
             updateChart(chartTwelveInline, 'logarithmic');
             break;
+        }
+      }
+    });
+  }
+  for (let i = 0; i < chartNavLinks.length; i++) {
+    chartNavLinks[i].addEventListener('click', () => {
+      if (chartNavLinks[i].innerHTML === 'Casos') {
+        chartNavLinks[i].classList.add('active');
+        chartNavLinks[i + 1].classList.remove('active');
+        chartNavLinks[i + 2].classList.remove('active');
+        chartNavLinks[i + 3].classList.remove('active');
+        if (chartNavLinks[i].classList.contains('cases-map')) {
+          createChoroplethMapChart(dataForFirstMapChart);
+          mapChartTitle.innerHTML = 'Casos por Unidade Federativa';
+        } else if (chartNavLinks[i].classList.contains('cases-doughnut')) {
+          updateDoughnutChart(
+            chartThirteenInline,
+            dataForChartThirteen,
+            'Casos por Região'
+          );
+        }
+      } else if (chartNavLinks[i].innerHTML === 'Mortes') {
+        chartNavLinks[i].classList.add('active');
+        chartNavLinks[i - 1].classList.remove('active');
+        chartNavLinks[i + 1].classList.remove('active');
+        chartNavLinks[i + 2].classList.remove('active');
+        if (chartNavLinks[i].classList.contains('deaths-map')) {
+          createChoroplethMapChart(dataForSecondMapChart);
+          mapChartTitle.innerHTML = 'Mortes por Unidade Federativa';
+        } else if (chartNavLinks[i].classList.contains('deaths-doughnut')) {
+          updateDoughnutChart(
+            chartThirteenInline,
+            dataForChartFourteen,
+            'Mortes por Região'
+          );
+        }
+      } else if (chartNavLinks[i].innerHTML === 'Taxa de casos') {
+        chartNavLinks[i].classList.add('active');
+        chartNavLinks[i + 1].classList.remove('active');
+        chartNavLinks[i - 1].classList.remove('active');
+        chartNavLinks[i - 2].classList.remove('active');
+        if (chartNavLinks[i].classList.contains('cases100k-map')) {
+          createChoroplethMapChart(dataForThirdMapChart);
+          mapChartTitle.innerHTML =
+            'Casos por 100 mil habitantes por Unidade Federativa';
+        } else if (chartNavLinks[i].classList.contains('cases100k-doughnut')) {
+          updateDoughnutChart(
+            chartThirteenInline,
+            dataForChartFifteen,
+            'Taxa de Casos por 100 mil habitantes por Região'
+          );
+        }
+      } else if (chartNavLinks[i].innerHTML === 'Taxa de mortes') {
+        chartNavLinks[i].classList.add('active');
+        chartNavLinks[i - 1].classList.remove('active');
+        chartNavLinks[i - 2].classList.remove('active');
+        chartNavLinks[i - 3].classList.remove('active');
+        if (chartNavLinks[i].classList.contains('deaths100k-map')) {
+          createChoroplethMapChart(dataForFourthMapChart);
+          mapChartTitle.innerHTML =
+            'Mortes por 100 mil habitantes por Unidade Federativa';
+        } else if (chartNavLinks[i].classList.contains('deaths100k-doughnut')) {
+          updateDoughnutChart(
+            chartThirteenInline,
+            dataForChartSixteen,
+            'Taxa de Mortes por 100 mil habitantes por Região'
+          );
         }
       }
     });

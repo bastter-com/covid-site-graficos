@@ -316,52 +316,41 @@
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-lg-6 border my-3">
+  <div class="container border my-3">
       <!-- Chart 13 -->
-      <small
-        >Dados referentes à última data de atualização de cada estado (vide
-        tabela abaixo)</small
-      >
-      <div class="chart-container p-0">
-        <canvas id="chart-13"></canvas>
-      </div>
+        <div class="chart-container-parent" id="chart-container-parent-13">
+          <small
+            >Dados referentes à última data de atualização de cada estado (vide
+            tabela abaixo)</small
+          >
+          <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a
+              class="nav-link chart-nav-link active cases-doughnut"
+              >Casos</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link chart-nav-link deaths-doughnut"
+              >Mortes</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link chart-nav-link cases100k-doughnut"
+              >Taxa de casos</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link chart-nav-link deaths100k-doughnut"
+              >Taxa de mortes</a
+            >
+          </li>
+        </ul>
+          <div class="chart-container p-0">
+            <canvas id="chart-13"></canvas>
+          </div>
+        </div>
     </div>
-    <div class="col-lg-6 border my-3">
-      <!-- Chart 14 -->
-      <small
-        >Dados referentes à última data de atualização de cada estado (vide
-        tabela abaixo)</small
-      >
-      <div class="chart-container p-0">
-        <canvas id="chart-14"></canvas>
-      </div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-lg-6 border my-3">
-      <!-- Chart 15 -->
-      <small
-        >Dados referentes à última data de atualização de cada estado (vide
-        tabela abaixo)</small
-      >
-      <div class="chart-container p-0">
-        <canvas id="chart-15"></canvas>
-      </div>
-    </div>
-
-    <div class="col-lg-6 border my-3">
-      <!-- Chart 16 -->
-      <small
-        >Dados referentes à última data de atualização de cada estado (vide
-        tabela abaixo)</small
-      >
-      <div class="chart-container p-0">
-        <canvas id="chart-16"></canvas>
-      </div>
-    </div>
-  </div>
 
   <div class="container border my-3">
     <small>Dados referentes à última data de atualização</small>
@@ -371,19 +360,19 @@
     >
     <ul class="nav nav-tabs">
       <li class="nav-item">
-        <a class="nav-link chart-nav-link cases active">Casos</a>
+        <a class="nav-link chart-nav-link cases-map active">Casos</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link chart-nav-link deaths">Mortes</a>
+        <a class="nav-link chart-nav-link deaths-map">Mortes</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link chart-nav-link cases100k">Taxa de casos</a>
+        <a class="nav-link chart-nav-link cases100k-map">Taxa de casos</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link chart-nav-link deaths100k">Taxa de mortes</a>
+        <a class="nav-link chart-nav-link deaths100k-map">Taxa de mortes</a>
       </li>
     </ul>
-    <!-- Chart 17 -->
+    <!-- Chart 14 -->
     <p id="geochart-title" class="text-center h2 geochart pt-3">
       Casos por Unidade Federativa
     </p>
