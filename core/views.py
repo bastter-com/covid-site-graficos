@@ -35,7 +35,10 @@ def states(request):
 
 def cities(request):
     states_uf = (
-        StateData.objects.all().values_list("state", flat=True).distinct()
+        StateData.objects.all()
+        .order_by("state")
+        .values_list("state", flat=True)
+        .distinct()
     )
 
     states = list()
