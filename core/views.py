@@ -71,8 +71,16 @@ def cities_data(request):
         "uf": queryset.state,
         "city": queryset.city,
         "confirmed": queryset.confirmed,
+        "cases_rate_per_inhabitants": round(
+            ((queryset.confirmed / queryset.estimated_population_2019) * 100),
+            3,
+        ),
         "deaths": queryset.deaths,
+        "deaths_rate_per_inhabitants": round(
+            ((queryset.deaths / queryset.estimated_population_2019) * 100), 3,
+        ),
         "date": datetime.date.strftime(queryset.date, format="%d/%m/%Y"),
+        "estimated_population_2019": queryset.estimated_population_2019,
     }
 
     return HttpResponse(json.dumps(data), content_type="application/json")

@@ -37,8 +37,20 @@ $(document).ready(function () {
         $('#city-data-name').text(result.city);
         $('#city-data-name-uf').text(result.uf);
         $('#city-data-confirmed').text(result.confirmed);
+        $('#city-data-confirmed-rate').text(
+          `${result.cases_rate_per_inhabitants} %`.replace('.', ',')
+        );
         $('#city-data-deaths').text(result.deaths);
+        $('#city-data-deaths-rate').text(
+          `${result.deaths_rate_per_inhabitants} %`.replace('.', ',')
+        );
         $('#city-data-date').text(result.date);
+        $('#city-data-estimated-population').text(
+          `${result.estimated_population_2019}`.replace(
+            /\B(?=(\d{3})+(?!\d))/g,
+            '.'
+          )
+        );
       },
     });
   });
