@@ -55,9 +55,11 @@ def cities(request):
 def cities_detail(request):
 
     uf = request.GET["uf"]
-    cities_of_selected_uf = CityData.objects.filter(
-        state=uf.upper()
-    ).values_list("city", flat=True)
+    cities_of_selected_uf = (
+        CityData.objects.filter(state=uf.upper())
+        .order_by("city")
+        .values_list("city", flat=True)
+    )
     cities = list()
     for city in cities_of_selected_uf:
         cities.append({"name": city})
