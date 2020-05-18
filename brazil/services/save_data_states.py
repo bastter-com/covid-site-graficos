@@ -62,9 +62,6 @@ def create_date_list():
             queryset = StateData.objects.filter(date=date)
             if len(queryset) == 27 and index != 0:
                 if index != 0:
-                    from ipdb import set_trace
-
-                    set_trace()
                     first_date = list_of_dates_to_check[index + 3]
                     index = list_of_dates_to_check.index(first_date)
                     first_date = first_date.strftime("%Y-%m-%d")
