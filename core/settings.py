@@ -1,6 +1,8 @@
 import os
 from decouple import config, Csv
 import django_heroku
+import dj_database_url
+import sys
 
 
 X_RAPIDAPI_KEY = config("X_RAPIDAPI_KEY")
@@ -59,12 +61,28 @@ TEMPLATES = [
 WSGI_APPLICATION = "core.wsgi.application"
 
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+if sys.argv[1] == "runserver" or "collectstatic":
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": "covidbr",
+            "USER": "postgres",
+            "PASSWORD": "123456",
+            "HOST": "127.0.0.1",
+            "PORT": "5432",
+        }
     }
-}
+else:
+    DATABASES["default"] = dj_database_url.config(
+        conn_max_age=600, ssl_require=True
+    )
+
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+#     }
+# }
 
 # CELERY
 CELERY_BROKER_URL = config("REDIS_URL")

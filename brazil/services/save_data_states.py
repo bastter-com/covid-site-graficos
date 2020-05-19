@@ -6,6 +6,7 @@ import datetime
 from time import sleep
 from brazil.services.data_states_maps import create_base_date_list
 from city.models import CityData
+from time import sleep
 
 
 def create_list_of_uf():
@@ -112,7 +113,7 @@ def save_data_to_database(state, data, date):
         deaths=data["deaths"],
         date=date,
     )
-    print(f"Data of {state} - {date} saved at database!")
+    print(f"Data of {state} - {date} saved to database!")
     return True
 
 
@@ -131,7 +132,6 @@ def save_cities_data_to_database(state, data, date):
             )
             if existing_city_or_not:
                 existing_city_or_not.delete()
-            print(city["city"])
             if city["city_ibge_code"] and city["confirmed"]:
                 CityData.objects.create(
                     state=city["state"],
@@ -148,30 +148,120 @@ def save_cities_data_to_database(state, data, date):
                         "estimated_population_2019"
                     ],
                 )
-                print(
-                    f"Data of {date} -> {state} - {city['city']} saved at database!"
-                )
+        print(f"Cities of {state} - {date} saved to database!")
         return True
     return False
 
 
-def fix_empty_date_registers():
+def fix_empty_registers_between_two_dates(
+    uf, dates_list, index, date, queryset
+):
     """
-    Create first registers of each state when they don't have data yet.
+    Repeat previous data when existing register without data between
+    two registers with data
     """
-    dates_list_base_for_states_maps = create_base_date_list()[:-5]
+    for i in range(1, 10):
+        if previous_data := StateData.objects.filter(
+            date=dates_list[index - i], state=uf,
+        ).first():
+            queryset.state = uf
+            queryset.estimated_population_2019 = (
+                previous_data.estimated_population_2019
+            )
+            queryset.confirmed = previous_data.confirmed
+            queryset.deaths = previous_data.deaths
+            queryset.date = date
+            queryset.save()
+
+
+def save_empty_registers_before_first_register(uf, date):
+    """
+    Create registers without data but with date before first register
+    """
+    StateData.objects.create(
+        state=uf,
+        estimated_population_2019=0,
+        confirmed=0,
+        deaths=0,
+        date=date,
+    )
+
+
+def copy_last_registers_and_save_between_two_dates(previous_data, uf, date):
+    """
+    Copy last data between two dates when a date haven't any data.
+    """
+    StateData.objects.create(
+        state=uf,
+        estimated_population_2019=(previous_data.estimated_population_2019),
+        confirmed=previous_data.confirmed,
+        deaths=previous_data.deaths,
+        date=date,
+    )
+
+
+def update_registers_with_zero_confirmed_cases_between_two_dates(
+    queryset, previous_data, uf, date
+):
+    """
+    Update registers with no confirmed data existing between two dates.
+    """
+    queryset.state = uf
+    queryset.estimated_population_2019 = (
+        previous_data.estimated_population_2019
+    )
+    queryset.confirmed = previous_data.confirmed
+    queryset.deaths = previous_data.deaths
+    queryset.date = date
+    queryset.save()
+
+
+def search_for_empty_registers_between_two_dates_or_before_first_case():
+    """
+    Fix empty registers.
+    Because the Brasil.IO API does not have data of all dates and all states,
+    this function is needed to repeat the previous data when there is no data in
+    some date or to add registers with zero cases before the first registered case.
+    """
+    dates_list_base_for_states_maps = create_base_date_list()[:-6]
     uf_list = create_list_of_uf()
-    for date in dates_list_base_for_states_maps:
+    for index, date in enumerate(dates_list_base_for_states_maps):
         for uf in uf_list:
-            queryset = StateData.objects.filter(date=date, state=uf)
-            if not queryset:
-                StateData.objects.create(
-                    state=uf,
-                    estimated_population_2019=0,
-                    confirmed=0,
-                    deaths=0,
-                    date=date,
-                )
+            queryset = StateData.objects.filter(date=date, state=uf).first()
+            first_date_with_cases = (
+                StateData.objects.filter(state=uf, confirmed__gt=0)
+                .order_by("date")
+                .first()
+            ).date
+            print(queryset)
+            if date < first_date_with_cases:
+                if not queryset:
+                    save_empty_registers_before_first_register(uf, date)
+            else:
+                if not queryset:
+                    for i in range(1, 10):
+                        if previous_data := StateData.objects.filter(
+                            date=dates_list_base_for_states_maps[index - i],
+                            state=uf,
+                        ).first():
+                            copy_last_registers_and_save_between_two_dates(
+                                previous_data, uf, date
+                            )
+                            break
+                elif (
+                    queryset.confirmed == 0
+                    and queryset.date > first_date_with_cases
+                ):
+                    for i in range(1, 10):
+                        if previous_data := StateData.objects.filter(
+                            date=dates_list_base_for_states_maps[index - i],
+                            state=uf,
+                        ).first():
+                            update_registers_with_zero_confirmed_cases_between_two_dates(
+                                queryset, previous_data, uf, date
+                            )
+
+                            break
 
 
 def search_for_empty_data_to_save():
@@ -198,8 +288,14 @@ def search_for_empty_data_to_save():
                     }
                     save_data_to_database(state, data, date)
                 if request["results"][-1]["is_last"]:
-                    data = request["results"][:-1]
-                    save_cities_data_to_database(state, data, date)
+                    queryset = CityData.objects.filter(state=state, date=date)
+                    if not queryset:
+                        data = request["results"][:-1]
+                        save_cities_data_to_database(state, data, date)
+                    else:
+                        print(
+                            f"Cities of {state} - {date} are already in database"
+                        )
 
             else:
                 print("This state/date pair haven't data to save yet")

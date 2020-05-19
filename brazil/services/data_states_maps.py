@@ -17,6 +17,42 @@ def create_base_date_list():
     return dates_list_base_for_states_map
 
 
+def create_relational_region_state_dict():
+    """
+    A relational dict with region and state.
+    """
+    state_and_region = {
+        "AM": "Norte",
+        "PA": "Norte",
+        "AP": "Norte",
+        "RO": "Norte",
+        "AC": "Norte",
+        "RR": "Norte",
+        "TO": "Norte",
+        "PE": "Nordeste",
+        "CE": "Nordeste",
+        "MA": "Nordeste",
+        "BA": "Nordeste",
+        "AL": "Nordeste",
+        "PB": "Nordeste",
+        "RN": "Nordeste",
+        "PI": "Nordeste",
+        "SE": "Nordeste",
+        "SP": "Sudeste",
+        "RJ": "Sudeste",
+        "ES": "Sudeste",
+        "MG": "Sudeste",
+        "DF": "Centro-Oeste",
+        "GO": "Centro-Oeste",
+        "MT": "Centro-Oeste",
+        "MS": "Centro-Oeste",
+        "SC": "Sul",
+        "RS": "Sul",
+        "PR": "Sul",
+    }
+    return state_and_region
+
+
 def create_region_dict():
     """
     Create a base brazilian regions dict for regions charts for brazil endpoint.
@@ -138,35 +174,7 @@ def get_data_for_each_state():
 
     region_deaths_100k_pop_rate = create_region_dict()
 
-    state_and_region = {
-        "AM": "Norte",
-        "PA": "Norte",
-        "AP": "Norte",
-        "RO": "Norte",
-        "AC": "Norte",
-        "RR": "Norte",
-        "TO": "Norte",
-        "PE": "Nordeste",
-        "CE": "Nordeste",
-        "MA": "Nordeste",
-        "BA": "Nordeste",
-        "AL": "Nordeste",
-        "PB": "Nordeste",
-        "RN": "Nordeste",
-        "PI": "Nordeste",
-        "SE": "Nordeste",
-        "SP": "Sudeste",
-        "RJ": "Sudeste",
-        "ES": "Sudeste",
-        "MG": "Sudeste",
-        "DF": "Centro-Oeste",
-        "GO": "Centro-Oeste",
-        "MT": "Centro-Oeste",
-        "MS": "Centro-Oeste",
-        "SC": "Sul",
-        "RS": "Sul",
-        "PR": "Sul",
-    }
+    state_and_region = create_relational_region_state_dict()
 
     for state in daily_state_data:
 

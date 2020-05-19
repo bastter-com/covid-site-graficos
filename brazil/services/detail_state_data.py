@@ -16,7 +16,9 @@ def get_last_update_date(uf):
     """
     Get the last updated data of one UF.
     """
-    last_update = StateData.objects.filter(state=uf.upper()).last().date
+    last_update = (
+        StateData.objects.filter(state=uf.upper()).order_by("date").last().date
+    )
 
     return last_update
 
@@ -64,9 +66,11 @@ def get_new_events_numbers(uf, data_to_query):
     """
     Get new cases or new deaths for state
     """
-    queryset = StateData.objects.filter(
-        state=uf.upper(), confirmed__gt=0
-    ).values_list(data_to_query, flat=True)
+    queryset = (
+        StateData.objects.filter(state=uf.upper(), confirmed__gt=0)
+        .order_by("date")
+        .values_list(data_to_query, flat=True)
+    )
     data = list(queryset)
     new_events = [
         day_after - day_before for day_before, day_after in zip(data, data[1:])
