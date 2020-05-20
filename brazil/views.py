@@ -28,6 +28,9 @@ def brazil(request):
     last_update = CountryData.objects.filter(country="Brazil").last().date
 
     day_0_data, day_0_days = data_states_maps.get_data_day_zero_cases()
+
+    list_of_ufs = list(data_states_maps.get_list_of_ufs())
+
     return render(
         request,
         "brazil/brazil.html",
@@ -42,6 +45,7 @@ def brazil(request):
             "day_0_info": day_0_data,
             "day_0_days": day_0_days,
             "last_update": last_update,
+            "list_of_ufs": list_of_ufs,
             "navbar": "brazil",
         },
     )

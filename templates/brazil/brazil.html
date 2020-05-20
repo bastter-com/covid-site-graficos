@@ -68,6 +68,51 @@
     </div>
   </div>
 
+  <!-- States Selector -->
+  <!-- Button trigger modal -->
+  <div class="text-center">
+    <button type="button" class="btn btn-primary p-4 my-3" data-toggle="modal" data-target="#ufOptionsModal">
+      Escolher quais estados visualizar nos gráficos
+    </button>
+  </div>
+
+  <!-- Modal -->
+  <form id="states-form">
+    <div class="modal fade" id="ufOptionsModal" tabindex="-1" role="dialog" aria-labelledby="ufOptionsModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="ufOptionsModalLabel">Selecione os estados que quer visualizar</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <div class="row">
+                {% for uf in list_of_ufs %}
+                  {% if forloop.first %}<div class="col-sm-4">{% endif %}
+                  <div class="form-check">
+                    <input class="form-check-input state-data-option" type="checkbox" value="{{ uf }}" id="option-{{ uf }}">
+                    <label class="form-check-label" for="option-{{ uf }}">
+                      {{ uf }}
+                    </label>
+                  </div> 
+                    {% if not forloop.last and forloop.counter|divisibleby:9 %}</div><div class="col-sm-4">{% endif %}
+                    {% if forloop.last %}</div>{% endif %}
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            <button type="button" class="btn btn-primary" id="confirm-states-selected" data-dismiss="modal">Confirmar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
   <div class="row">
     <div class="col-lg-6 border my-3">
       <!-- Chart 3 -->

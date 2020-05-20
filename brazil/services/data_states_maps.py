@@ -66,6 +66,55 @@ def create_region_dict():
     }
 
 
+def get_region_data(daily_state_data):
+    """
+    Get the regions data.
+    """
+    region_confirmed = create_region_dict()
+
+    region_deaths = create_region_dict()
+
+    region_confirmed_100k_pop_rate = create_region_dict()
+
+    region_deaths_100k_pop_rate = create_region_dict()
+
+    state_and_region = create_relational_region_state_dict()
+
+    for state in daily_state_data:
+
+        uf = state["state"]
+        region = state_and_region[uf]
+        region_confirmed[region] += state["confirmed"][-1]
+        region_deaths[region] += state["deaths"][-1]
+        region_confirmed_100k_pop_rate[region] += state[
+            "cases_rate_per_100k_pop"
+        ][-1]
+        region_deaths_100k_pop_rate[region] += state[
+            "deaths_rate_per_100k_pop"
+        ][-1]
+
+    return (
+        region_confirmed,
+        region_deaths,
+        region_confirmed_100k_pop_rate,
+        region_deaths_100k_pop_rate,
+    )
+
+
+def get_list_of_ufs():
+    """
+    Return a list of UFs
+    """
+    states_uf = (
+        StateData.objects.all()
+        .order_by("state")
+        .values_list("state", flat=True)
+        .distinct()
+    )
+
+    return states_uf
+
+
 def get_data_for_each_state():
     """
     Get each state data making queries at database to plot on front-end brazil endpoint.
@@ -166,28 +215,12 @@ def get_data_for_each_state():
         date.strftime("%d/%m") for date in dates_list_base_for_states_map
     ]
 
-    region_confirmed = create_region_dict()
-
-    region_deaths = create_region_dict()
-
-    region_confirmed_100k_pop_rate = create_region_dict()
-
-    region_deaths_100k_pop_rate = create_region_dict()
-
-    state_and_region = create_relational_region_state_dict()
-
-    for state in daily_state_data:
-
-        uf = state["state"]
-        region = state_and_region[uf]
-        region_confirmed[region] += state["confirmed"][-1]
-        region_deaths[region] += state["deaths"][-1]
-        region_confirmed_100k_pop_rate[region] += state[
-            "cases_rate_per_100k_pop"
-        ][-1]
-        region_deaths_100k_pop_rate[region] += state[
-            "deaths_rate_per_100k_pop"
-        ][-1]
+    (
+        region_confirmed,
+        region_deaths,
+        region_confirmed_100k_pop_rate,
+        region_deaths_100k_pop_rate,
+    ) = get_region_data(daily_state_data)
 
     return (
         daily_state_data,

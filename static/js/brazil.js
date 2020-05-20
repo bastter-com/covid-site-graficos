@@ -1,5 +1,5 @@
-const dataOfFirstTenStates = statesDailyData.slice(0, 12);
-const dataOfFirstTenStatesDayZero = dayZeroData.slice(0, 12);
+let dataToShowOnCharts = statesDailyData.slice(0, 12);
+let dataToShowOnChartsDayZero = dayZeroData.slice(0, 12);
 const quantityOfDays = datesList.length;
 const chartNavLinks = document.getElementsByClassName('chart-nav-link');
 let mapChartTitle = document.getElementById('geochart-title');
@@ -42,10 +42,21 @@ const colorsListForDeathsMap = [
   '#FF0000',
 ];
 
+function getSelectedStatesToSeeData() {
+  let states = Array.from(document.getElementsByClassName('state-data-option'));
+  let selectedStates = [];
+  for (let i = 0; i < states.length; i++) {
+    if (states[i].checked) {
+      selectedStates.push(states[i].value);
+    }
+  }
+  return selectedStates;
+}
+
 function prepareStatesDataset(dataToGet) {
   let datasetDataToChart = [];
-  for (let i = 0; i < dataOfFirstTenStates.length; i++) {
-    let label = dataOfFirstTenStates[i]['state'];
+  for (let i = 0; i < dataToShowOnCharts.length; i++) {
+    let label = dataToShowOnCharts[i]['state'];
     let borderColor;
     if (
       (dataToGet == 'confirmed') |
@@ -58,9 +69,9 @@ function prepareStatesDataset(dataToGet) {
       (dataToGet == 'deaths_rate_per_100k_pop') |
       (dataToGet == 'new_deaths')
     ) {
-      borderColor = colorsListForDeathsMap[i];
+      borderColor = colorsListForCasesMap[i];
     }
-    let data = dataOfFirstTenStates[i][dataToGet];
+    let data = dataToShowOnCharts[i][dataToGet];
     let fill = false;
     datasetDataToChart.push({
       label: label,
@@ -74,8 +85,8 @@ function prepareStatesDataset(dataToGet) {
 
 function prepareStatesDayZeroDatasets(dataToGet) {
   let datasetDataToChartDayZero = [];
-  for (let i = 0; i < dataOfFirstTenStatesDayZero.length; i++) {
-    let label = dataOfFirstTenStatesDayZero[i]['state'];
+  for (let i = 0; i < dataToShowOnChartsDayZero.length; i++) {
+    let label = dataToShowOnChartsDayZero[i]['state'];
     let borderColor;
     if (
       (dataToGet == 'confirmed_day_0') |
@@ -88,9 +99,9 @@ function prepareStatesDayZeroDatasets(dataToGet) {
       (dataToGet == 'deaths_rate_per_100k_pop') |
       (dataToGet == 'deaths_rate_by_100k_pop')
     ) {
-      borderColor = colorsListForDeathsMap[i];
+      borderColor = colorsListForCasesMap[i];
     }
-    let data = dataOfFirstTenStatesDayZero[i][dataToGet];
+    let data = dataToShowOnChartsDayZero[i][dataToGet];
     let fill = false;
     datasetDataToChartDayZero.push({
       label: label,
@@ -201,6 +212,11 @@ function updateChart(chart, axesType) {
   chart.options.scales.yAxes[0].type = axesType;
   chart.update();
 }
+
+function updateChartLineDatasets(chart, dataset) {
+  chart.data.datasets = chart.update();
+}
+
 function updateDoughnutChart(chart, dataToUpdateDoughnutChart, title) {
   chart.options.title.text = title;
   chart.data = dataToUpdateDoughnutChart;
@@ -251,84 +267,104 @@ const dataForChartTwo = {
   labelYAxis: 'Casos / Mortes',
 };
 
-const dataForChartThree = {
-  labels: datesList,
-  datasets: prepareStatesDataset('new_confirmed', quantityOfDays),
-  title: 'Novos casos por estado do Brasil',
-  labelXAxis: 'Data',
-  labelYAxis: 'Novos casos',
+let dataForChartThree = () => {
+  return {
+    labels: datesList,
+    datasets: prepareStatesDataset('new_confirmed', quantityOfDays),
+    title: 'Novos casos por estado do Brasil',
+    labelXAxis: 'Data',
+    labelYAxis: 'Novos casos',
+  };
 };
 
-const dataForChartFour = {
-  labels: datesList,
-  datasets: prepareStatesDataset('new_deaths', quantityOfDays),
-  title: 'Novas mortes por estado do Brasil',
-  labelXAxis: 'Data',
-  labelYAxis: 'Novas mortes',
+let dataForChartFour = () => {
+  return {
+    labels: datesList,
+    datasets: prepareStatesDataset('new_deaths', quantityOfDays),
+    title: 'Novas mortes por estado do Brasil',
+    labelXAxis: 'Data',
+    labelYAxis: 'Novas mortes',
+  };
 };
 
-const dataForChartFive = {
-  labels: datesList,
-  datasets: prepareStatesDataset('confirmed', quantityOfDays),
-  title: 'Casos por estado do Brasil',
-  labelXAxis: 'Data',
-  labelYAxis: 'Casos',
+let dataForChartFive = () => {
+  return {
+    labels: datesList,
+    datasets: prepareStatesDataset('confirmed', quantityOfDays),
+    title: 'Casos por estado do Brasil',
+    labelXAxis: 'Data',
+    labelYAxis: 'Casos',
+  };
 };
 
-const dataForChartSix = {
-  labels: datesList,
-  datasets: prepareStatesDataset('deaths', quantityOfDays),
-  title: 'Mortes por estado do Brasil',
-  labelXAxis: 'Data',
-  labelYAxis: 'Mortes',
+let dataForChartSix = () => {
+  return {
+    labels: datesList,
+    datasets: prepareStatesDataset('deaths', quantityOfDays),
+    title: 'Mortes por estado do Brasil',
+    labelXAxis: 'Data',
+    labelYAxis: 'Mortes',
+  };
 };
 
-const dataForChartSeven = {
-  labels: baseDayZeroDays,
-  datasets: prepareStatesDayZeroDatasets('confirmed_day_0'),
-  title: 'Casos por estado no Brasil a partir do caso nº 1000',
-  labelXAxis: 'Dia a partir do caso nº 1000',
-  labelYAxis: 'Casos',
+let dataForChartSeven = () => {
+  return {
+    labels: baseDayZeroDays,
+    datasets: prepareStatesDayZeroDatasets('confirmed_day_0'),
+    title: 'Casos por estado no Brasil a partir do caso nº 1000',
+    labelXAxis: 'Dia a partir do caso nº 1000',
+    labelYAxis: 'Casos',
+  };
 };
 
-const dataForChartEight = {
-  labels: baseDayZeroDays,
-  datasets: prepareStatesDayZeroDatasets('deaths_day_0'),
-  title: 'Mortes por estado no Brasil a partir do caso nº 1000',
-  labelXAxis: 'Dia a partir do caso nº 1000',
-  labelYAxis: 'Mortes',
+let dataForChartEight = () => {
+  return {
+    labels: baseDayZeroDays,
+    datasets: prepareStatesDayZeroDatasets('deaths_day_0'),
+    title: 'Mortes por estado no Brasil a partir do caso nº 1000',
+    labelXAxis: 'Dia a partir do caso nº 1000',
+    labelYAxis: 'Mortes',
+  };
 };
 
-const dataForChartNine = {
-  labels: datesList,
-  datasets: prepareStatesDataset('cases_rate_per_100k_pop'),
-  title: 'Taxa de casos por 100 mil habitantes',
-  labelXAxis: 'Data',
-  labelYAxis: 'Casos / 100 mil habitantes',
+let dataForChartNine = () => {
+  return {
+    labels: datesList,
+    datasets: prepareStatesDataset('cases_rate_per_100k_pop'),
+    title: 'Taxa de casos por 100 mil habitantes',
+    labelXAxis: 'Data',
+    labelYAxis: 'Casos / 100 mil habitantes',
+  };
 };
 
-const dataForChartTen = {
-  labels: datesList,
-  datasets: prepareStatesDataset('deaths_rate_per_100k_pop'),
-  title: 'Taxa de mortes por 100 mil habitantes',
-  labelXAxis: 'Data',
-  labelYAxis: 'Mortes / 100 mil habitantes',
+let dataForChartTen = () => {
+  return {
+    labels: datesList,
+    datasets: prepareStatesDataset('deaths_rate_per_100k_pop'),
+    title: 'Taxa de mortes por 100 mil habitantes',
+    labelXAxis: 'Data',
+    labelYAxis: 'Mortes / 100 mil habitantes',
+  };
 };
 
-const dataForChartEleven = {
-  labels: baseDayZeroDays,
-  datasets: prepareStatesDayZeroDatasets('confirmed_rate_by_100k_pop'),
-  title: 'Taxa de casos por 100 mil habitantes a partir do caso nº 1000',
-  labelXAxis: 'Data',
-  labelYAxis: 'Casos / 100 mil habitantes',
+let dataForChartEleven = () => {
+  return {
+    labels: baseDayZeroDays,
+    datasets: prepareStatesDayZeroDatasets('confirmed_rate_by_100k_pop'),
+    title: 'Taxa de casos por 100 mil habitantes a partir do caso nº 1000',
+    labelXAxis: 'Data',
+    labelYAxis: 'Casos / 100 mil habitantes',
+  };
 };
 
-const dataForChartTwelve = {
-  labels: baseDayZeroDays,
-  datasets: prepareStatesDayZeroDatasets('deaths_rate_by_100k_pop'),
-  title: 'Taxa de mortes por 100 mil habitantes a partir do caso nº 1000',
-  labelXAxis: 'Data',
-  labelYAxis: 'Mortes / 100 mil habitantes',
+let dataForChartTwelve = () => {
+  return {
+    labels: baseDayZeroDays,
+    datasets: prepareStatesDayZeroDatasets('deaths_rate_by_100k_pop'),
+    title: 'Taxa de mortes por 100 mil habitantes a partir do caso nº 1000',
+    labelXAxis: 'Data',
+    labelYAxis: 'Mortes / 100 mil habitantes',
+  };
 };
 
 const dataForChartThirteen = {
@@ -399,25 +435,25 @@ let chartOne = createChart(dataForChartOne);
 
 let chartTwo = createChart(dataForChartTwo);
 
-let chartThree = createChart(dataForChartThree);
+let chartThree = createChart(dataForChartThree());
 
-let chartFour = createChart(dataForChartFour);
+let chartFour = createChart(dataForChartFour());
 
-let chartFive = createChart(dataForChartFive);
+let chartFive = createChart(dataForChartFive());
 
-let chartSix = createChart(dataForChartSix);
+let chartSix = createChart(dataForChartSix());
 
-let chartSeven = createChart(dataForChartSeven);
+let chartSeven = createChart(dataForChartSeven());
 
-let chartEight = createChart(dataForChartEight);
+let chartEight = createChart(dataForChartEight());
 
-let chartNine = createChart(dataForChartNine);
+let chartNine = createChart(dataForChartNine());
 
-let chartTen = createChart(dataForChartTen);
+let chartTen = createChart(dataForChartTen());
 
-let chartEleven = createChart(dataForChartEleven);
+let chartEleven = createChart(dataForChartEleven());
 
-let chartTwelve = createChart(dataForChartTwelve);
+let chartTwelve = createChart(dataForChartTwelve());
 
 let chartThirteen = createDoughnutChart(
   dataForChartThirteen,
@@ -837,4 +873,59 @@ window.onload = function () {
       }
     });
   }
+  $('#confirm-states-selected').click(() => {
+    let selectedStates = getSelectedStatesToSeeData();
+    let selectedStatesData = statesDailyData.filter((elem) => {
+      if (selectedStates.includes(elem.state)) {
+        return elem.state;
+      }
+    });
+    let selectedStatesDataDayZero = dayZeroData.filter((elem) => {
+      if (selectedStates.includes(elem.state)) {
+        return elem.state;
+      }
+    });
+    dataToShowOnCharts = selectedStatesData;
+    dataToShowOnChartsDayZero = selectedStatesDataDayZero;
+
+    chartThreeInline.data.labels = dataForChartThree().labels;
+    chartThreeInline.data.datasets = dataForChartThree().datasets;
+    chartThreeInline.update();
+
+    chartFourInline.data.labels = dataForChartFour().labels;
+    chartFourInline.data.datasets = dataForChartFour().datasets;
+    chartFourInline.update();
+
+    chartFiveInline.data.labels = dataForChartFive().labels;
+    chartFiveInline.data.datasets = dataForChartFive().datasets;
+    chartFiveInline.update();
+
+    chartSixInline.data.labels = dataForChartSix().labels;
+    chartSixInline.data.datasets = dataForChartSix().datasets;
+    chartSixInline.update();
+
+    chartSevenInline.data.labels = dataForChartSeven().labels;
+    chartSevenInline.data.datasets = dataForChartSeven().datasets;
+    chartSevenInline.update();
+
+    chartEightInline.data.labels = dataForChartEight().labels;
+    chartEightInline.data.datasets = dataForChartEight().datasets;
+    chartEightInline.update();
+
+    chartNineInline.data.labels = dataForChartNine().labels;
+    chartNineInline.data.datasets = dataForChartNine().datasets;
+    chartNineInline.update();
+
+    chartTenInline.data.labels = dataForChartTen().labels;
+    chartTenInline.data.datasets = dataForChartTen().datasets;
+    chartTenInline.update();
+
+    chartElevenInline.data.labels = dataForChartEleven().labels;
+    chartElevenInline.data.datasets = dataForChartEleven().datasets;
+    chartElevenInline.update();
+
+    chartTwelveInline.data.labels = dataForChartTwelve().labels;
+    chartTwelveInline.data.datasets = dataForChartTwelve().datasets;
+    chartTwelveInline.update();
+  });
 };
