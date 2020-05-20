@@ -21,6 +21,22 @@ const colorsListForCasesMap = [
   '#D6A65A',
   '#ABEBC6',
   '#F5CBA7',
+  '#003f5c',
+  '#2f4b7c',
+  '#665191',
+  '#a05195',
+  '#d45087',
+  '#f95d6a',
+  '#ff7c43',
+  '#ffa600',
+  '#488f31',
+  '#8ba43c',
+  '#c7b854',
+  '#ffcb77',
+  '#f69e5d',
+  '#e97051',
+  '#00FFFF',
+  '#FF0000',
 ];
 
 const colorsListForDeathsMap = [
