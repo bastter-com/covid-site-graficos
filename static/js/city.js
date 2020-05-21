@@ -5,7 +5,7 @@ $(document).ready(function () {
 
     let dataToAjax = { uf: stateSelected };
     $.ajax({
-      url: '/cidades_detalhe',
+      url: '/cidades/cidades_detalhe',
       type: 'GET',
       dataType: 'json',
       data: dataToAjax,
@@ -27,13 +27,12 @@ $(document).ready(function () {
     let stateSelected = optionStateSelected.text();
     let dataToAjaxCity = { uf: stateSelected, city: citySelected };
     $.ajax({
-      url: '/cidades_dados',
+      url: '/cidades/cidades_dados',
       type: 'GET',
       dataType: 'json',
       data: dataToAjaxCity,
       contentType: 'application/json',
       success: function (result) {
-        console.log(result.city);
         $('#city-data-name').text(result.city);
         $('#city-data-name-uf').text(result.uf);
         $('#city-data-confirmed').text(

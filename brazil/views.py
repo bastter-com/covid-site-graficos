@@ -6,6 +6,7 @@ from brazil.services import (
     get_cities_data_for_detail_state_page,
 )
 from world.models import CountryData
+from city.models import CityData
 import json
 
 
@@ -62,6 +63,10 @@ def state(request, uf):
         uf
     )
 
+    last_date_with_cities_update = (
+        CityData.objects.filter(state=uf.upper()).last().date
+    )
+
     data_for_charts = total_data["data_for_charts"]
 
     # with open(f"static/json/{uf.upper()}.json") as json_file:
@@ -74,6 +79,7 @@ def state(request, uf):
             "context": total_data,
             "data_for_charts": data_for_charts,
             "cities_data": cities_data,
+            "last_date_with_cities_update": last_date_with_cities_update
             # "map_geojson": map_geojson,
         },
     )
