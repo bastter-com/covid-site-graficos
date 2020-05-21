@@ -2,7 +2,37 @@ from django.db import models
 
 
 class StateData(models.Model):
-    state = models.CharField(max_length=30)
+    STATE_CHOICES = [
+        ("SP", "SP"),
+        ("AC", "AC"),
+        ("AM", "AM"),
+        ("RR", "RR"),
+        ("PA", "PA"),
+        ("AP", "AP"),
+        ("TO", "TO"),
+        ("MA", "MA"),
+        ("PI", "PI"),
+        ("CE", "CE"),
+        ("RN", "RN"),
+        ("PB", "PB"),
+        ("PE", "PE"),
+        ("AL", "AL"),
+        ("SE", "SE"),
+        ("BA", "BA"),
+        ("MG", "MG"),
+        ("ES", "ES"),
+        ("RJ", "RJ"),
+        ("RO", "RO"),
+        ("PR", "PR"),
+        ("SC", "SC"),
+        ("RS", "RS"),
+        ("MS", "MS"),
+        ("MT", "MT"),
+        ("GO", "GO"),
+        ("DF", "DF"),
+    ]
+
+    state = models.CharField(max_length=30, choices=STATE_CHOICES)
     estimated_population_2019 = models.IntegerField()
     confirmed = models.IntegerField()
     date = models.DateField()
