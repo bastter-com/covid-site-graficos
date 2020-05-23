@@ -1,6 +1,7 @@
 from brazil.models import StateData
 from operator import itemgetter
 import datetime
+from brazil.services.calculate_moving_average import calculate_moving_average
 
 
 def create_base_date_list():
@@ -141,6 +142,10 @@ def get_data_for_each_state():
             )
         ]
         new_confirmed_by_state.insert(0, confirmed_by_state[0])
+        new_confirmed_by_state_moving_average = calculate_moving_average(
+            new_confirmed_by_state, 7
+        )
+
         new_deaths_by_state = [
             day_after - day_before
             for day_before, day_after in zip(
@@ -148,13 +153,18 @@ def get_data_for_each_state():
             )
         ]
         new_deaths_by_state.insert(0, deaths_by_state[0])
+        new_deaths_by_state_moving_average = calculate_moving_average(
+            new_deaths_by_state, 7
+        )
         daily_state_data.append(
             {
                 "state": uf,
                 "confirmed": confirmed_by_state,
                 "new_confirmed": new_confirmed_by_state,
+                "new_confirmed_moving_average": new_confirmed_by_state_moving_average,
                 "deaths": deaths_by_state,
                 "new_deaths": new_deaths_by_state,
+                "new_deaths_moving_average": new_deaths_by_state_moving_average,
                 "dates": dates_by_state,
                 "first_case_date": dates_by_state[
                     [
