@@ -125,7 +125,7 @@ def save_state_instance_using_ms_source(row):
         confirmed=row.casosAcumulado,
         date=row.data,
         deaths=row.obitosAcumulado,
-        update_source="Ministério da Saúde",
+        update_source="MS",
     )
 
 
@@ -149,7 +149,7 @@ def save_city_instance_using_ms_source(row):
             print(f"Previou data of {row.estado} - {row.municipio} erased!")
             CityData.objects.create(
                 state=row.estado,
-                update_source="Ministério da Saúde",
+                update_source="MS",
                 city=row.municipio,
                 city_ibge_code=city_ibge_code,
                 confirmed=row.casosAcumulado,
@@ -164,7 +164,7 @@ def save_city_instance_using_ms_source(row):
     else:
         CityData.objects.create(
             state=row.estado,
-            update_source="Ministério da Saúde",
+            update_source="MS",
             city=row.municipio,
             city_ibge_code=row.codmun,
             confirmed=row.casosAcumulado,
@@ -184,14 +184,15 @@ def iterate_dataframe_rows_and_save_new_data_in_database(df):
     """
     saving_instances = 0
     for row in df.itertuples():
-        # Search states data and if empty, save it
-        if row.regiao == "Brasil":
-            query_brazil = CountryData.objects.filter(
-                translated_country_name=row.regiao, date=row.data
-            )
-            if not query_brazil:
-                save_brazil_instance_using_ms_source(row)
-        elif row.codmun == "0" and row.regiao != "Brasil":
+        # Search brazil data and if empty, save it
+        # if row.regiao == "Brasil":
+        #     query_brazil = CountryData.objects.filter(
+        #         translated_country_name=row.regiao, date=row.data
+        #     )
+        #     if not query_brazil:
+        #         save_brazil_instance_using_ms_source(row)
+        # Search state data and if empty, save it
+        if row.codmun == "0" and row.regiao != "Brasil":
             query_state = StateData.objects.filter(
                 state=row.estado, date=row.data
             )
@@ -199,6 +200,8 @@ def iterate_dataframe_rows_and_save_new_data_in_database(df):
                 save_state_instance_using_ms_source(row)
                 print(f"{row.data} - {row.estado} - Saved to database!")
                 saving_instances += 1
+            else:
+                print(f"{row.data} - {row.estado} - Already in database")
         # Search cities data and if empty, save it
         # elif row.codmun != "0" and row.municipio:
         #     query_city = CityData.objects.filter(

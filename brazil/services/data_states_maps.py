@@ -131,6 +131,10 @@ def get_data_for_each_state():
         deaths_by_state = list()
         dates_by_state = list()
         last_update_source = data[-1].update_source
+        if last_update_source == "MS":
+            last_update_source = "Ministério da Saúde"
+        elif last_update_source == "SES":
+            last_update_source = "Secretaria Estadual de Saúde"
 
         for state in data:
             confirmed_by_state.append(state.confirmed)

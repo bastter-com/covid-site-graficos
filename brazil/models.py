@@ -33,8 +33,8 @@ class StateData(models.Model):
     ]
 
     UPDATE_SOURCE_CHOICES = [
-        ("MS", "Ministério da Saúde"),
-        ("SES", "Secretaria Estadual de Saúde"),
+        ("MS", "MS"),
+        ("SES", "SES"),
     ]
 
     state = models.CharField(max_length=30, choices=STATE_CHOICES)

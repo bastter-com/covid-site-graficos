@@ -60,9 +60,8 @@ def create_date_list():
             now - datetime.timedelta(days=day) for day in range(duration.days)
         ]
         for index, date in enumerate(list_of_dates_to_check):
-            queryset = StateData.objects.filter(
-                date=date, update_source="Secretaria Estadual de Saúde"
-            )
+            queryset = StateData.objects.filter(date=date, update_source="SES")
+
             if len(queryset) == 27 and index != 0:
                 if index != 0:
                     first_date = list_of_dates_to_check[index - 1]
@@ -105,20 +104,17 @@ def save_data_to_database(state, data, date):
     """
     Save data to database if it doesn't exist yet.
     """
-    if StateData.objects.filter(
-        state=state, date=date, update_source="Secretaria Estadual de Saúde"
-    ):
+    if StateData.objects.filter(state=state, date=date, update_source="SES"):
         print("This data is already at database")
         return False
-    elif StateData.objects.filter(
-        state=state, date=date, update_source="Ministério da Saúde"
-    ):
+    elif StateData.objects.filter(state=state, date=date, update_source="MS"):
+
         data_to_update = StateData.objects.filter(
-            state=state, date=date, update_source="Ministério da Saúde"
-        )
+            state=state, date=date, update_source="MS"
+        ).first()
         data_to_update.confirmed = data["confirmed"]
         data_to_update.deaths = data["deaths"]
-        data_to_update.update_source = "Secretaria Estadual de Saúde"
+        data_to_update.update_source = "SES"
         data_to_update.estimated_population_2019 = data[
             "estimated_population_2019"
         ]
@@ -131,7 +127,7 @@ def save_data_to_database(state, data, date):
         confirmed=data["confirmed"],
         deaths=data["deaths"],
         date=date,
-        update_source="Secretaria Estadual de Saúde",
+        update_source="SES",
     )
     print(f"Data of {state} - {date} saved to database!")
     return True
@@ -167,7 +163,7 @@ def save_cities_data_to_database(state, data, date):
                     estimated_population_2019=city[
                         "estimated_population_2019"
                     ],
-                    update_source="Secretaria Estadual de Saúde",
+                    update_source="SES",
                 )
         print(f"Cities of {state} - {date} saved to database!")
         return True
@@ -294,11 +290,15 @@ def search_for_empty_data_to_save():
     state_list = create_list_of_uf()
     for date in date_list:
         for state in state_list:
-            query = StateData.objects.filter(state=state, date=date)
-            if not query:
+            query = StateData.objects.filter(state=state, date=date).first()
+            if query:
+                query_update_source = query.update_source
+            else:
+                query_update_source = False
+            if query_update_source == "MS" or not query:
                 request = base_request(state, date)
                 print(f"{date} - {state}")
-                sleep(5)
+                sleep(4)
                 if request["results"]:
                     state_data = request["results"][-1]
                     if state_data["place_type"] == "state":
