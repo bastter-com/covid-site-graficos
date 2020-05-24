@@ -19,6 +19,8 @@ supervisor = "^4.1.0"
 python-decouple = "^3.3"
 django-widget-tweaks = "^1.4.8"
 pandas = "^1.0.3"
+xlrd = "^1.2.0"
+selenium = "^3.141.0"
 
 [tool.poetry.dev-dependencies]
 black = "^19.10b0"

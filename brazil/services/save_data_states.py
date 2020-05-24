@@ -60,7 +60,9 @@ def create_date_list():
             now - datetime.timedelta(days=day) for day in range(duration.days)
         ]
         for index, date in enumerate(list_of_dates_to_check):
-            queryset = StateData.objects.filter(date=date)
+            queryset = StateData.objects.filter(
+                date=date, update_source="Secretaria Estadual de Saúde"
+            )
             if len(queryset) == 27 and index != 0:
                 if index != 0:
                     first_date = list_of_dates_to_check[index - 1]
@@ -103,15 +105,33 @@ def save_data_to_database(state, data, date):
     """
     Save data to database if it doesn't exist yet.
     """
-    if StateData.objects.filter(state=state, date=date):
+    if StateData.objects.filter(
+        state=state, date=date, update_source="Secretaria Estadual de Saúde"
+    ):
         print("This data is already at database")
         return False
+    elif StateData.objects.filter(
+        state=state, date=date, update_source="Ministério da Saúde"
+    ):
+        data_to_update = StateData.objects.filter(
+            state=state, date=date, update_source="Ministério da Saúde"
+        )
+        data_to_update.confirmed = data["confirmed"]
+        data_to_update.deaths = data["deaths"]
+        data_to_update.update_source = "Secretaria Estadual de Saúde"
+        data_to_update.estimated_population_2019 = data[
+            "estimated_population_2019"
+        ]
+        data_to_update.save()
+        print(f"Data of {state} - {date} updated in database!")
+        return True
     StateData.objects.create(
         state=state,
         estimated_population_2019=data["estimated_population_2019"],
         confirmed=data["confirmed"],
         deaths=data["deaths"],
         date=date,
+        update_source="Secretaria Estadual de Saúde",
     )
     print(f"Data of {state} - {date} saved to database!")
     return True
@@ -147,6 +167,7 @@ def save_cities_data_to_database(state, data, date):
                     estimated_population_2019=city[
                         "estimated_population_2019"
                     ],
+                    update_source="Secretaria Estadual de Saúde",
                 )
         print(f"Cities of {state} - {date} saved to database!")
         return True

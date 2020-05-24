@@ -445,6 +445,7 @@
       <thead>
         <tr>
           <th scope="col">UF</th>
+          <th scope="col">Última atualização</th>
           <th scope="col">Casos</th>
           <th scope="col">Mortes</th>
           <th scope="col">Letalidade</th>
@@ -452,13 +453,14 @@
           <th scope="col">Casos por 100 mil habitantes</th>
           <th scope="col">Mortes por 100 mil habitantes</th>
           <th scope="col">Data do primeiro caso</th>
-          <th scope="col">Última atualização</th>
+          <th scope="col">Fonte última atualização</th>
         </tr>
       </thead>
       <tbody>
         {% for state in states_daily_data %}
         <tr scope="row">
           <td><a href="/brasil/{{state.state}}">{{ state.state }}</a></td>
+          <td>{{ state.last_date_with_updated_data }}</td>
           <td>{{ state.total_cases|intcomma }}</td>
           <td>{{ state.total_deaths|intcomma }}</td>
           <td>{{ state.lethality|intcomma }} %</td>
@@ -466,7 +468,7 @@
           <td>{{ state.cases_per_100k_pop|intcomma }}</td>
           <td>{{ state.deaths_per_100k_pop|intcomma }}</td>
           <td>{{ state.first_case_date }}</td>
-          <td>{{ state.last_date_with_updated_data }}</td>
+          <td>{{ state.last_update_source }}</td>
         </tr>
         {% endfor %}
       </tbody>

@@ -32,7 +32,15 @@ class StateData(models.Model):
         ("TO", "TO"),
     ]
 
+    UPDATE_SOURCE_CHOICES = [
+        ("MS", "Ministério da Saúde"),
+        ("SES", "Secretaria Estadual de Saúde"),
+    ]
+
     state = models.CharField(max_length=30, choices=STATE_CHOICES)
+    update_source = models.CharField(
+        max_length=30, choices=UPDATE_SOURCE_CHOICES
+    )
     estimated_population_2019 = models.IntegerField()
     confirmed = models.IntegerField()
     date = models.DateField()

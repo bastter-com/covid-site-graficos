@@ -130,6 +130,7 @@ def get_data_for_each_state():
         confirmed_by_state = list()
         deaths_by_state = list()
         dates_by_state = list()
+        last_update_source = data[-1].update_source
 
         for state in data:
             confirmed_by_state.append(state.confirmed)
@@ -156,9 +157,11 @@ def get_data_for_each_state():
         new_deaths_by_state_moving_average = calculate_moving_average(
             new_deaths_by_state, 7
         )
+
         daily_state_data.append(
             {
                 "state": uf,
+                "last_update_source": last_update_source,
                 "confirmed": confirmed_by_state,
                 "new_confirmed": new_confirmed_by_state,
                 "new_confirmed_moving_average": new_confirmed_by_state_moving_average,
