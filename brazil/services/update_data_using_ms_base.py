@@ -246,7 +246,7 @@ def pipeline_to_save_data_using_ms_source():
     xlsx_file = pipeline_to_download_xlsx_file()
     df = open_xlsx_file_with_pandas(xlsx_file)
     filtered_df_by_today_date = filter_dataframe_to_find_data_of_specific_date(
-        df, yesterday
+        df, today
     )
     cleaned_df = cleanup_dataframe(filtered_df_by_today_date)
     iterate_dataframe_rows_and_save_new_data_in_database(cleaned_df)
