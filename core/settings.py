@@ -1,7 +1,5 @@
 import os
 from decouple import config, Csv
-import django_heroku
-import dj_database_url
 import sys
 
 
@@ -60,22 +58,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "core.wsgi.application"
 
-
-if sys.argv[1] == "runserver" or "collectstatic":
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql_psycopg2",
-            "NAME": config("DB_NAME"),
-            "USER": config("DB_USER"),
-            "PASSWORD": config("DB_PASSWORD"),
-            "HOST": config("DB_HOST"),
-            "PORT": "",
-        }
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": config("DB_NAME"),
+        "USER": config("DB_USER"),
+        "PASSWORD": config("DB_PASSWORD"),
+        "HOST": config("DB_HOST"),
+        "PORT": "",
     }
-else:
-    DATABASES["default"] = dj_database_url.config(
-        conn_max_age=600, ssl_require=True
-    )
+}
 
 # CELERY
 CELERY_BROKER_URL = config("REDIS_URL")
@@ -115,10 +107,8 @@ USE_TZ = True
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 STATIC_URL = "/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles/")
 
-
-# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-# settings = dynaconf.DjangoDynaconf(__name__)  # noqa
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
@@ -145,5 +135,3 @@ LOGGING = {
 }
 
 DEBUG_PROPAGATE_EXCEPTIONS = True
-
-django_heroku.settings(locals())
