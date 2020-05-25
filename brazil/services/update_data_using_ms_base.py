@@ -184,6 +184,7 @@ def iterate_dataframe_rows_and_save_new_data_in_database(df):
     """
     saving_instances = 0
     for row in df.itertuples():
+        # View it later
         # Search brazil data and if empty, save it
         # if row.regiao == "Brasil":
         #     query_brazil = CountryData.objects.filter(
