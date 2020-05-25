@@ -14,11 +14,8 @@ class Migration(migrations.Migration):
             model_name="statedata",
             name="update_source",
             field=models.CharField(
-                choices=[
-                    ("MS", "Ministério da Saúde"),
-                    ("SES", "Secretaria Estadual de Saúde"),
-                ],
-                default="Secretaria Estadual de Saúde",
+                choices=[("MS", "MS"), ("SES", "SES"),],
+                default="SES",
                 max_length=30,
             ),
             preserve_default=False,

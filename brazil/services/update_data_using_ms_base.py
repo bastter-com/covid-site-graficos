@@ -186,14 +186,14 @@ def iterate_dataframe_rows_and_save_new_data_in_database(df):
     for row in df.itertuples():
         # View it later
         # Search brazil data and if empty, save it
-        # if row.regiao == "Brasil":
-        #     query_brazil = CountryData.objects.filter(
-        #         translated_country_name=row.regiao, date=row.data
-        #     )
-        #     if not query_brazil:
-        #         save_brazil_instance_using_ms_source(row)
+        if row.regiao == "Brasil":
+            query_brazil = CountryData.objects.filter(
+                translated_country_name=row.regiao, date=row.data
+            )
+            if not query_brazil:
+                save_brazil_instance_using_ms_source(row)
         # Search state data and if empty, save it
-        if row.codmun == "0" and row.regiao != "Brasil":
+        elif row.codmun == "0" and row.regiao != "Brasil":
             query_state = StateData.objects.filter(
                 state=row.estado, date=row.data
             )

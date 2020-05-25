@@ -1,5 +1,5 @@
-let dataToShowOnCharts = statesDailyData.slice(0, 12);
-let dataToShowOnChartsDayZero = dayZeroData.slice(0, 12);
+let dataToShowOnCharts = statesDailyData.slice(0, 6);
+let dataToShowOnChartsDayZero = dayZeroData.slice(0, 6);
 const quantityOfDays = datesList.length;
 const chartNavLinks = document.getElementsByClassName('chart-nav-link');
 let mapChartTitle = document.getElementById('geochart-title');
