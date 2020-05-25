@@ -8,7 +8,7 @@ const colorsListForCasesMap = [
   '#856c8b',
   '#90bd88',
   '#a4c5c6',
-  '#ffeb99',
+  '#9000ff',
   '#bb3b0e',
   '#dd7631',
   '#708160',
