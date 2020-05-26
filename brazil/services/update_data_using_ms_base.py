@@ -116,6 +116,7 @@ def save_state_instance_using_ms_source(row):
     """
     estimated_population_2019 = (
         StateData.objects.filter(state=row.estado)
+        .order_by("date")
         .last()
         .estimated_population_2019
     )
