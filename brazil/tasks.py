@@ -23,7 +23,7 @@ def task_save_br_data_to_database():
 
 
 @periodic_task(
-    run_every=(crontab(minute="*/480")),
+    run_every=(crontab(minute="*/120")),
     name="search_for_empty_data_to_save_using_MS_source",
     ignore_result=True,
 )
