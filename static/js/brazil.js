@@ -5,17 +5,17 @@ const chartNavLinks = document.getElementsByClassName('chart-nav-link');
 let mapChartTitle = document.getElementById('geochart-title');
 
 const colorsListForCasesMap = [
-  '#856c8b',
-  '#90bd88',
-  '#a4c5c6',
-  '#9000ff',
-  '#bb3b0e',
-  '#dd7631',
-  '#708160',
-  '#d8c593',
-  '#0779e4',
-  '#4cbbb9',
-  '#77d8d8',
+  '#5899da',
+  '#e8743b',
+  '#19a979',
+  '#ed4a7b',
+  '#945ecf',
+  '#b90c0d',
+  '#525df4',
+  '#bf399e',
+  '#6c8893',
+  '#ee6868',
+  '#2f6497',
   '#eb0510',
   '#B7A755',
   '#D6A65A',
@@ -73,20 +73,7 @@ function prepareStatesDataset(dataToGet) {
   let datasetDataToChart = [];
   for (let i = 0; i < dataToShowOnCharts.length; i++) {
     let label = dataToShowOnCharts[i]['state'];
-    let borderColor;
-    if (
-      (dataToGet == 'confirmed') |
-      (dataToGet == 'cases_rate_per_100k_pop') |
-      (dataToGet == 'new_confirmed')
-    ) {
-      borderColor = colorsListForCasesMap[i];
-    } else if (
-      (dataToGet == 'deaths') |
-      (dataToGet == 'deaths_rate_per_100k_pop') |
-      (dataToGet == 'new_deaths')
-    ) {
-      borderColor = colorsListForCasesMap[i];
-    }
+    let borderColor = colorsListForCasesMap[i];
     let data = dataToShowOnCharts[i][dataToGet];
     let fill = false;
     datasetDataToChart.push({
@@ -103,20 +90,7 @@ function prepareStatesDayZeroDatasets(dataToGet) {
   let datasetDataToChartDayZero = [];
   for (let i = 0; i < dataToShowOnChartsDayZero.length; i++) {
     let label = dataToShowOnChartsDayZero[i]['state'];
-    let borderColor;
-    if (
-      (dataToGet == 'confirmed_day_0') |
-      (dataToGet == 'cases_rate_per_100k_pop') |
-      (dataToGet == 'confirmed_rate_by_100k_pop')
-    ) {
-      borderColor = colorsListForCasesMap[i];
-    } else if (
-      (dataToGet == 'deaths_day_0') |
-      (dataToGet == 'deaths_rate_per_100k_pop') |
-      (dataToGet == 'deaths_rate_by_100k_pop')
-    ) {
-      borderColor = colorsListForCasesMap[i];
-    }
+    let borderColor = colorsListForCasesMap[i];
     let data = dataToShowOnChartsDayZero[i][dataToGet];
     let fill = false;
     datasetDataToChartDayZero.push({
@@ -310,6 +284,19 @@ let dataForChartThree = () => {
 let dataForChartFour = () => {
   return {
     labels: datesList,
+    datasets: prepareStatesDataset(
+      'new_confirmed_moving_average',
+      quantityOfDays
+    ),
+    title: 'Média móvel de 7 dias - novos casos',
+    labelXAxis: 'Data',
+    labelYAxis: 'Média móvel novos casos',
+  };
+};
+
+let dataForChartFive = () => {
+  return {
+    labels: datesList,
     datasets: prepareStatesDataset('new_deaths', quantityOfDays),
     title: 'Novas mortes por estado do Brasil',
     labelXAxis: 'Data',
@@ -317,7 +304,17 @@ let dataForChartFour = () => {
   };
 };
 
-let dataForChartFive = () => {
+let dataForChartSix = () => {
+  return {
+    labels: datesList,
+    datasets: prepareStatesDataset('new_deaths_moving_average', quantityOfDays),
+    title: 'Média móvel de 7 dias - novas mortes',
+    labelXAxis: 'Data',
+    labelYAxis: 'Média móvel novas mortes',
+  };
+};
+
+let dataForChartSeven = () => {
   return {
     labels: datesList,
     datasets: prepareStatesDataset('confirmed', quantityOfDays),
@@ -327,7 +324,7 @@ let dataForChartFive = () => {
   };
 };
 
-let dataForChartSix = () => {
+let dataForChartEight = () => {
   return {
     labels: datesList,
     datasets: prepareStatesDataset('deaths', quantityOfDays),
@@ -337,7 +334,7 @@ let dataForChartSix = () => {
   };
 };
 
-let dataForChartSeven = () => {
+let dataForChartNine = () => {
   return {
     labels: baseDayZeroDays,
     datasets: prepareStatesDayZeroDatasets('confirmed_day_0'),
@@ -347,7 +344,7 @@ let dataForChartSeven = () => {
   };
 };
 
-let dataForChartEight = () => {
+let dataForChartTen = () => {
   return {
     labels: baseDayZeroDays,
     datasets: prepareStatesDayZeroDatasets('deaths_day_0'),
@@ -357,7 +354,7 @@ let dataForChartEight = () => {
   };
 };
 
-let dataForChartNine = () => {
+let dataForChartEleven = () => {
   return {
     labels: datesList,
     datasets: prepareStatesDataset('cases_rate_per_100k_pop'),
@@ -367,7 +364,7 @@ let dataForChartNine = () => {
   };
 };
 
-let dataForChartTen = () => {
+let dataForChartTwelve = () => {
   return {
     labels: datesList,
     datasets: prepareStatesDataset('deaths_rate_per_100k_pop'),
@@ -377,7 +374,7 @@ let dataForChartTen = () => {
   };
 };
 
-let dataForChartEleven = () => {
+let dataForChartThirteen = () => {
   return {
     labels: baseDayZeroDays,
     datasets: prepareStatesDayZeroDatasets('confirmed_rate_by_100k_pop'),
@@ -387,7 +384,7 @@ let dataForChartEleven = () => {
   };
 };
 
-let dataForChartTwelve = () => {
+let dataForChartFourteen = () => {
   return {
     labels: baseDayZeroDays,
     datasets: prepareStatesDayZeroDatasets('deaths_rate_by_100k_pop'),
@@ -397,7 +394,7 @@ let dataForChartTwelve = () => {
   };
 };
 
-const dataForChartThirteen = {
+const dataForChartFifteen = {
   datasets: [
     {
       data: [
@@ -413,7 +410,7 @@ const dataForChartThirteen = {
   labels: ['Norte', 'Nordeste', 'Sudeste', 'Centro-Oeste', 'Sul'],
 };
 
-const dataForChartFourteen = {
+const dataForChartSixteen = {
   datasets: [
     {
       data: [
@@ -429,7 +426,7 @@ const dataForChartFourteen = {
   labels: ['Norte', 'Nordeste', 'Sudeste', 'Centro-Oeste', 'Sul'],
 };
 
-const dataForChartFifteen = {
+const dataForChartSeventeen = {
   datasets: [
     {
       data: [
@@ -445,7 +442,7 @@ const dataForChartFifteen = {
   labels: ['Norte', 'Nordeste', 'Sudeste', 'Centro-Oeste', 'Sul'],
 };
 
-const dataForChartSixteen = {
+const dataForChartEighteen = {
   datasets: [
     {
       data: [
@@ -485,23 +482,24 @@ let chartEleven = createChart(dataForChartEleven());
 
 let chartTwelve = createChart(dataForChartTwelve());
 
-let chartThirteen = createDoughnutChart(
-  dataForChartThirteen,
-  'Casos por Região'
-);
+let chartThirteen = createChart(dataForChartThirteen());
 
-let chartFourteen = createDoughnutChart(
-  dataForChartFourteen,
-  'Mortes por Região'
-);
+let chartFourteen = createChart(dataForChartFourteen());
 
-let chartFifteen = createDoughnutChart(
-  dataForChartFifteen,
-  'Taxa de Casos por 100 mil habitantes por Região'
-);
+let chartFifteen = createDoughnutChart(dataForChartFifteen, 'Casos por Região');
 
 let chartSixteen = createDoughnutChart(
   dataForChartSixteen,
+  'Mortes por Região'
+);
+
+let chartSeventeen = createDoughnutChart(
+  dataForChartSeventeen,
+  'Taxa de Casos por 100 mil habitantes por Região'
+);
+
+let chartEighteen = createDoughnutChart(
+  dataForChartEighteen,
   'Taxa de Mortes por 100 mil habitantes por Região'
 );
 
@@ -727,17 +725,15 @@ window.onload = function () {
   var chartThirteenInline = new Chart(ctxThirteen, chartThirteen);
   window.myLine = chartThirteenInline;
 
-  // // chart fourteen
-  // var ctxFourteen = document.getElementById('chart-14').getContext('2d');
-  // window.myLine = new Chart(ctxFourteen, chartFourteen);
+  // chart fourteen
+  var ctxFourteen = document.getElementById('chart-14').getContext('2d');
+  var chartFourteenInline = new Chart(ctxFourteen, chartFourteen);
+  window.myLine = chartFourteenInline;
 
-  // // chart fifteen
-  // var ctxFifteen = document.getElementById('chart-15').getContext('2d');
-  // window.myLine = new Chart(ctxFifteen, chartFifteen);
-
-  // // chart sixteen
-  // var ctxSixteen = document.getElementById('chart-16').getContext('2d');
-  // window.myLine = new Chart(ctxSixteen, chartSixteen);
+  // chart fifteen
+  var ctxFifteen = document.getElementById('chart-15').getContext('2d');
+  var chartFifteenInline = new Chart(ctxFifteen, chartFifteen);
+  window.myLine = chartFifteenInline;
 
   for (let i = 0; i < chartNavLinks.length; i++) {
     chartNavLinks[i].addEventListener('click', () => {
@@ -786,6 +782,12 @@ window.onload = function () {
           case '12':
             updateChart(chartTwelveInline, 'linear');
             break;
+          case '13':
+            updateChart(chartThirteenInline, 'linear');
+            break;
+          case '14':
+            updateChart(chartFourteenInline, 'linear');
+            break;
         }
       } else if (chartNavLinks[i].classList.contains('logarithm')) {
         let containerParentId =
@@ -832,6 +834,12 @@ window.onload = function () {
           case '12':
             updateChart(chartTwelveInline, 'logarithmic');
             break;
+          case '13':
+            updateChart(chartThirteenInline, 'logarithmic');
+            break;
+          case '14':
+            updateChart(chartFourteenInline, 'logarithmic');
+            break;
         }
       }
     });
@@ -848,8 +856,8 @@ window.onload = function () {
           mapChartTitle.innerHTML = 'Casos por Unidade Federativa';
         } else if (chartNavLinks[i].classList.contains('cases-doughnut')) {
           updateDoughnutChart(
-            chartThirteenInline,
-            dataForChartThirteen,
+            chartFifteenInline,
+            dataForChartFifteen,
             'Casos por Região'
           );
         }
@@ -863,8 +871,8 @@ window.onload = function () {
           mapChartTitle.innerHTML = 'Mortes por Unidade Federativa';
         } else if (chartNavLinks[i].classList.contains('deaths-doughnut')) {
           updateDoughnutChart(
-            chartThirteenInline,
-            dataForChartFourteen,
+            chartFifteenInline,
+            dataForChartSixteen,
             'Mortes por Região'
           );
         }
@@ -879,8 +887,8 @@ window.onload = function () {
             'Casos por 100 mil habitantes por Unidade Federativa';
         } else if (chartNavLinks[i].classList.contains('cases100k-doughnut')) {
           updateDoughnutChart(
-            chartThirteenInline,
-            dataForChartFifteen,
+            chartFifteenInline,
+            dataForChartSeventeen,
             'Taxa de Casos por 100 mil habitantes por Região'
           );
         }
@@ -895,8 +903,8 @@ window.onload = function () {
             'Mortes por 100 mil habitantes por Unidade Federativa';
         } else if (chartNavLinks[i].classList.contains('deaths100k-doughnut')) {
           updateDoughnutChart(
-            chartThirteenInline,
-            dataForChartSixteen,
+            chartFifteenInline,
+            dataForChartEighteen,
             'Taxa de Mortes por 100 mil habitantes por Região'
           );
         }
@@ -957,5 +965,13 @@ window.onload = function () {
     chartTwelveInline.data.labels = dataForChartTwelve().labels;
     chartTwelveInline.data.datasets = dataForChartTwelve().datasets;
     chartTwelveInline.update();
+
+    chartThirteenInline.data.labels = dataForChartThirteen().labels;
+    chartThirteenInline.data.datasets = dataForChartThirteen().datasets;
+    chartThirteenInline.update();
+
+    chartFourteenInline.data.labels = dataForChartFourteen().labels;
+    chartFourteenInline.data.datasets = dataForChartFourteen().datasets;
+    chartFourteenInline.update();
   });
 };

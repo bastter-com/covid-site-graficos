@@ -7,14 +7,9 @@
     <p class="text-center pb-0">
       Última atualização (dados Brasil) em {{ last_update }}.
     </p>
-    <small class="d-block"
-      >Obs: A atualização dos dados por Unidade Federativa é assíncrona,
-      dependente da divulgação das secretarias de saúde estaduais e podem
-      variar.</small
-    >
     <small class="d-block">
-      Fonte: Secretarias de Saúde das Unidades Federativas, dados tratados por
-      Álvaro Justen e colaboradores/Brasil.IO.
+      Fontes: Secretarias de Saúde das Unidades Federativas, dados tratados por
+      Álvaro Justen e colaboradores/Brasil.IO; Ministério da Saúde.
     </small>
   </div>
 
@@ -362,9 +357,58 @@
     </div>
   </div>
 
-  <div class="container border my-3">
+  <div class="row">
+    <div class="col-lg-6 border my-3">
       <!-- Chart 13 -->
-        <div class="chart-container-parent" id="chart-container-parent-13">
+      <div class="chart-container-parent" id="chart-container-parent-13">
+        <small>Dica: clique na legenda para apagar a linha.</small>
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a
+              id="chart-thirteen-linear"
+              class="nav-link chart-nav-link active linear"
+              >Linear</a
+            >
+          </li>
+          <li class="nav-item">
+            <a id="chart-thirteen-log" class="nav-link chart-nav-link logarithm"
+              >Logarítmica</a
+            >
+          </li>
+        </ul>
+        <div class="chart-container p-0">
+          <canvas id="chart-13"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 border my-3">
+      <!-- Chart 14 -->
+      <div class="chart-container-parent" id="chart-container-parent-14">
+        <small>Dica: clique na legenda para apagar a linha.</small>
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a
+              id="chart-fourteen-linear"
+              class="nav-link chart-nav-link active linear"
+              >Linear</a
+            >
+          </li>
+          <li class="nav-item">
+            <a id="chart-fourteen-log" class="nav-link chart-nav-link logarithm"
+              >Logarítmica</a
+            >
+          </li>
+        </ul>
+        <div class="chart-container p-0">
+          <canvas id="chart-14"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container border my-3">
+      <!-- Chart 15 -->
+        <div class="chart-container-parent" id="chart-container-parent-15">
           <small
             >Dados referentes à última data de atualização de cada estado (vide
             tabela abaixo)</small
@@ -393,7 +437,7 @@
           </li>
         </ul>
           <div class="chart-container p-0">
-            <canvas id="chart-13"></canvas>
+            <canvas id="chart-15"></canvas>
           </div>
         </div>
     </div>
@@ -418,7 +462,7 @@
         <a class="nav-link chart-nav-link deaths100k-map">Taxa de mortes</a>
       </li>
     </ul>
-    <!-- Chart 14 -->
+    <!-- Chart 16 -->
     <p id="geochart-title" class="text-center h2 geochart pt-3">
       Casos por Unidade Federativa
     </p>
