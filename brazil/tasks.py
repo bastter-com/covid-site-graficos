@@ -22,14 +22,3 @@ def task_save_br_data_to_database():
     logger.info("Turicas API data already searched!")
     pipeline_to_save_data_using_ms_source()
     logger.info("MS data already searched!")
-
-
-@periodic_task(
-    run_every=(crontab(minute="*/1")), name="hello_world", ignore_result=True,
-)
-def hello_world():
-    """
-    Hello world
-    """
-    logger.info("Hello world")
-    print("Hello world!")
