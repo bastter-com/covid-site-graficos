@@ -1,5 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.common.exceptions import TimeoutException
 import pandas as pd
 from os import listdir, remove
 from django.conf import settings
@@ -34,20 +35,38 @@ def find_the_clickable_button_of_xlsx_file_and_download_file(driver):
     Find the specific button to download the xlsx file, download it and
     return this file.
     """
-    list_of_buttons = driver.find_elements_by_tag_name("ion-button")
-    if list_of_buttons:
-        for button in list_of_buttons:
-            if button.text == "Arquivo CSV":
-                button.click()
-    else:
-        print("There is no ion-button to click")
-    files = listdir(".")
-    xlsx_file = [file for file in files if file.endswith("xlsx")]
-
-    while not xlsx_file:
-        sleep(1)
+    try:
+        sleep(10)
+        list_of_buttons = driver.find_elements_by_tag_name("ion-button")
+        if list_of_buttons:
+            for button in list_of_buttons:
+                if button.text == "Arquivo CSV":
+                    button.click()
+        else:
+            print("There is no ion-button to click")
         files = listdir(".")
         xlsx_file = [file for file in files if file.endswith("xlsx")]
+
+        while not xlsx_file:
+            sleep(1)
+            files = listdir(".")
+            xlsx_file = [file for file in files if file.endswith("xlsx")]
+    except TimeoutException:
+        sleep(10)
+        list_of_buttons = driver.find_elements_by_tag_name("ion-button")
+        if list_of_buttons:
+            for button in list_of_buttons:
+                if button.text == "Arquivo CSV":
+                    button.click()
+        else:
+            print("There is no ion-button to click")
+        files = listdir(".")
+        xlsx_file = [file for file in files if file.endswith("xlsx")]
+
+        while not xlsx_file:
+            sleep(1)
+            files = listdir(".")
+            xlsx_file = [file for file in files if file.endswith("xlsx")]
 
     return xlsx_file[0]
 
