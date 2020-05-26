@@ -161,7 +161,9 @@ def get_data_for_each_state():
         new_deaths_by_state_moving_average = calculate_moving_average(
             new_deaths_by_state, 7
         )
-
+        print(state)
+        print(state.estimated_population_2019)
+        print(confirmed_by_state[-1])
         daily_state_data.append(
             {
                 "state": uf,
