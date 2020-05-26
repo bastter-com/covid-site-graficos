@@ -120,14 +120,17 @@ def save_state_instance_using_ms_source(row):
         .last()
         .estimated_population_2019
     )
-    StateData.objects.create(
-        state=row.estado,
-        estimated_population_2019=estimated_population_2019,
-        confirmed=row.casosAcumulado,
-        date=row.data,
-        deaths=row.obitosAcumulado,
-        update_source="MS",
-    )
+    if estimated_population_2019:
+        StateData.objects.create(
+            state=row.estado,
+            estimated_population_2019=estimated_population_2019,
+            confirmed=row.casosAcumulado,
+            date=row.data,
+            deaths=row.obitosAcumulado,
+            update_source="MS",
+        )
+    else:
+        print("Não achei")
 
 
 def save_city_instance_using_ms_source(row):
