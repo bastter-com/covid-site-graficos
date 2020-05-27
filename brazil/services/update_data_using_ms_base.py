@@ -19,9 +19,7 @@ def instantiate_webdriver():
     print("Opening webdriver instance...")
     chrome_options = Options()
     chrome_options.add_argument("--headless")
-    driver = webdriver.Firefox(
-        executable_path="/usr/bin/chromedriver", options=chrome_options
-    )
+    driver = webdriver.Chrome("/usr/bin/chromedriver", options=chrome_options)
     return driver
 
 
