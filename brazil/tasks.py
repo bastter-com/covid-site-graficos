@@ -10,7 +10,7 @@ logger = get_task_logger(__name__)
 
 
 @periodic_task(
-    run_every=(crontab(minute="*/180")),
+    run_every=(crontab(minute="*/210")),
     name="search_for_empty_data_to_save_using_API",
     ignore_result=True,
 )
@@ -23,7 +23,7 @@ def task_save_br_data_to_database():
 
 
 @periodic_task(
-    run_every=(crontab(minute="*/120")),
+    run_every=(crontab(minute="*/70")),
     name="search_for_empty_data_to_save_using_MS_source",
     ignore_result=True,
 )
