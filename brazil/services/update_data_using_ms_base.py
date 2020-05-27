@@ -19,7 +19,6 @@ def instantiate_webdriver():
     chrome_options = Options()
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--remote-debugging-port=9222")
     driver = webdriver.Chrome("/usr/bin/chromedriver", options=chrome_options)
     return driver
 
