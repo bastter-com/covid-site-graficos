@@ -16,11 +16,12 @@ def instantiate_webdriver():
     """
     Create a webdriver instance
     """
+    print("Opening webdriver instance...")
     chrome_options = Options()
     chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--remote-debugging-port=9222")
-    driver = webdriver.Chrome("/usr/bin/chromedriver", options=chrome_options)
+    driver = webdriver.Firefox(
+        executable_path="/usr/bin/chromedriver", options=chrome_options
+    )
     return driver
 
 
@@ -28,9 +29,9 @@ def access_url_of_ms(driver):
     """
     Access the url of Ministerio da Saude
     """
+    print("Accessing url...")
     url = "https://covid.saude.gov.br/"
     driver.get(url)
-    sleep(10)
     return driver
 
 
@@ -39,12 +40,13 @@ def find_the_clickable_button_of_xlsx_file_and_download_file(driver):
     Find the specific button to download the xlsx file, download it and
     return this file.
     """
+    print("Searching for clickable button...")
     try:
-        sleep(10)
         list_of_buttons = driver.find_elements_by_tag_name("ion-button")
         if list_of_buttons:
             for button in list_of_buttons:
                 if button.text == "Arquivo CSV":
+                    print("Button found! Downloading xlsx file...")
                     button.click()
         else:
             print("There is no ion-button to click")
@@ -52,7 +54,6 @@ def find_the_clickable_button_of_xlsx_file_and_download_file(driver):
         xlsx_file = [file for file in files if file.endswith("xlsx")]
 
         while not xlsx_file:
-            sleep(1)
             files = listdir(".")
             xlsx_file = [file for file in files if file.endswith("xlsx")]
     except TimeoutException:
@@ -68,6 +69,7 @@ def pipeline_to_download_xlsx_file():
     """
     Create the driver instance, find the button of file and download it.
     """
+    print("Starting the pipeline to download xlsx file...")
     driver = instantiate_webdriver()
     driver = access_url_of_ms(driver)
     xlsx_file = find_the_clickable_button_of_xlsx_file_and_download_file(
@@ -80,6 +82,7 @@ def open_xlsx_file_with_pandas(xlsx_file):
     """
     Open the xlsx file and return the pandas dataframe.
     """
+    print("Opening dataframe...")
     df = pd.read_excel(xlsx_file)
 
     return df
@@ -89,6 +92,7 @@ def filter_dataframe_to_find_data_of_specific_date(df, date):
     """
     Get the data of a specific date.
     """
+    print("Filtering dataframe...")
     df_filtered_by_date = df[df["data"] == date]
     return df_filtered_by_date
 
@@ -98,6 +102,7 @@ def cleanup_dataframe(df):
     The codmun column is a float column, this must be a int or a string without
     floating point
     """
+    print("Cleaning up dataframe data...")
     df[["codmun"]] = df[["codmun"]].fillna(0).astype(int).astype(str)
     df[["municipio"]] = df[["municipio"]].fillna(False)
     return df
@@ -108,6 +113,7 @@ def save_brazil_instance_using_ms_source(row):
     Save a CountryData instance with Brazil data
     from Ministerio da Saude source
     """
+    print("Saving Brazil data if it does not exist yet...")
     CountryData.objects.create(
         country="Brazil",
         translated_country_name="Brasil",
@@ -126,6 +132,7 @@ def save_state_instance_using_ms_source(row):
     Save a state instance to database using Ministerio da Saude
     data
     """
+    print("Save state data if it does not exist yet...")
     estimated_population_2019 = (
         StateData.objects.filter(state=row.estado)
         .order_by("date")
@@ -198,6 +205,7 @@ def iterate_dataframe_rows_and_save_new_data_in_database(df):
     """
     Iterate dataframe and compare existing data in database
     """
+    print("Iterating the dataframe...")
     saving_instances = 0
     for row in df.itertuples():
         # View it later
@@ -244,6 +252,7 @@ def delete_xlsx_files_after_processing():
     """
     Search for xlsx files in BASE_DIR and delete all of it
     """
+    print("Deleting xlsx file...")
     for file in listdir("."):
         if file.endswith("xlsx"):
             remove(file)
@@ -254,6 +263,7 @@ def pipeline_to_save_data_using_ms_source():
     Pipeline function to save new data to database using
     Ministerio da Saude source data
     """
+    print("Starting the pipeline for MS data...")
     date_today = datetime.date.today()
     yesterday = date_today - datetime.timedelta(days=1)
     yesterday = yesterday.strftime("%Y-%m-%d")

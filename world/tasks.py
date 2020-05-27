@@ -12,7 +12,7 @@ logger = get_task_logger(__name__)
 
 
 @periodic_task(
-    run_every=(crontab(minute="*/300")),
+    run_every=(crontab(minute="*/240")),
     name="search_for_empty_data_to_save_at_database",
     ignore_result=True,
 )
