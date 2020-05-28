@@ -13,7 +13,7 @@ logger = get_task_logger(__name__)
 
 
 @periodic_task(
-    run_every=(crontab(minute="*/210")),
+    run_every=(crontab(minute=0, hour="*/2")),
     name="search_for_empty_data_to_save_using_API",
     ignore_result=True,
 )
@@ -39,7 +39,7 @@ def task_save_br_data_to_database():
 
 
 @periodic_task(
-    run_every=(crontab(minute="*/1500")),
+    run_every=(crontab(minute=0, hour=0)),
     name="copy_last_register_when_no_registers",
     ignore_result=True,
 )
