@@ -250,7 +250,6 @@ def search_for_empty_registers_between_two_dates_or_before_first_case():
                 .order_by("date")
                 .first()
             ).date
-            print(queryset)
             if date < first_date_with_cases:
                 if not queryset:
                     save_empty_registers_before_first_register(uf, date)
