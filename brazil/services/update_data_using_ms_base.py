@@ -63,6 +63,7 @@ def find_the_clickable_button_of_xlsx_file_and_download_file(driver):
             "Timeout Exception! The file cannot be downloaded. Try again later."
         )
         sys.exit()
+    driver.quit()
 
     return xlsx_file[0]
 
@@ -271,7 +272,13 @@ def pipeline_to_save_data_using_ms_source():
     yesterday = yesterday.strftime("%Y-%m-%d")
     today = date_today.strftime("%Y-%m-%d")
 
-    xlsx_file = pipeline_to_download_xlsx_file()
+    # problems with selenium in server
+    # xlsx_file = pipeline_to_download_xlsx_file()
+    xlsx_file = [
+        xlsx_file for xlsx_file in listdir(".") if xlsx_file.endswith("xlsx")
+    ]
+    xlsx_file = xlsx_file[0]
+
     df = open_xlsx_file_with_pandas(xlsx_file)
     filtered_df_by_today_date = filter_dataframe_to_find_data_of_specific_date(
         df, today
