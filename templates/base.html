@@ -108,7 +108,7 @@
       integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
       crossorigin="anonymous"
     ></script>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark text-white mb-4">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark text-white mb-4">
       <div class="container">
         <a href="{% url 'index' %}" class="navbar-brand">
           <img
@@ -131,23 +131,30 @@
             <li class="nav-item">
               <a
                 href="{% url 'cities' %}"
-                class="nav-link {% if navbar == 'cities' %} active {% endif %}"
+                class="nav-link px-3 {% if navbar == 'cities' %} active {% endif %}"
                 >Cidades</a
               >
             </li>
             <li class="nav-item">
               <a
                 href="{% url 'states' %}"
-                class="nav-link {% if navbar == 'states' %} active {% endif %}"
+                class="nav-link px-3 {% if navbar == 'states' %} active {% endif %}"
                 >Estados</a
               >
             </li>
             <li class="nav-item">
               <a
                 href="{% url 'brazil' %}"
-                class="nav-link {% if navbar == 'brazil' %} active {% endif %}"
+                class="nav-link px-3 {% if navbar == 'brazil' %} active {% endif %}"
                 >Brasil</a
               >
+            </li>
+            <li class="nav-item" id="inumeraveis">
+              <a
+                href="https://inumeraveis.com.br/"
+                class="nav-link px-3 btn btn-outline-danger text-left"
+                >Inumeráveis</a
+                >
             </li>
             {% comment %} <li class="nav-item">
               <a
