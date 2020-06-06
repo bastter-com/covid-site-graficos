@@ -7,75 +7,74 @@
 <h1 class="mb-3">
   Dados sobre a Covid-19 no Brasil
 </h1>
-<div class="row">
-  <div class="col-lg-4 mt-3">
-    <p class="text-justify">
-      Este é um site informativo sobre a Covid-19, doença causada pelo novo
-      coronavírus (Sars-Cov-2).
-    </p>
-    <p class="text-justify">
-      O site apresenta gráficos e tabelas com os dados da pandemia no Brasil e nos estados brasileiros.
-    </p>
-    <div
-      class="btn-group btn-group btn-group-lg justify-content-center d-flex mt-4"
-      role="group"
-      aria-label="button group"
-    >
-      <a class="btn btn-info" href="{% url 'cities' %}">Cidades</a>
-      <a class="btn btn-info" href="{% url 'states' %}">Estados</a>
-      <a class="btn btn-info" href="{% url 'brazil' %}">Brasil</a>
-      {% comment %} <a class="btn btn-info" href="{% url 'world' %}">Mundo</a> {% endcomment %}
+<div class="mt-3">
+  <p class="text-justify">
+    Este é um site informativo sobre a Covid-19, doença causada pelo novo
+    coronavírus (Sars-Cov-2).
+  </p>
+  <p class="text-justify">
+    O site apresenta gráficos e tabelas com os dados da pandemia no Brasil e nos estados brasileiros.
+  </p>
+  <p class="text-justify">
+    Sabemos que cada número relatado em nossos gráficos e tabelas é mais que um número: é uma história. Por isso, achamos importante divulgar o trabalho feito pelo pessoal do <a href="https://inumeraveis.com.br/">Inumeráveis</a> para honrar a memória das vítimas da pandemia no Brasil.
+  </p>
+  <div
+    class="btn-group container btn-group btn-group-lg w-75 justify-content-center d-flex my-4"
+    role="group"
+    aria-label="button group"
+  >
+    <a class="btn btn-info" href="{% url 'cities' %}">Cidades</a>
+    <a class="btn btn-info" href="{% url 'states' %}">Estados</a>
+    <a class="btn btn-info" href="{% url 'brazil' %}">Brasil</a>
+    {% comment %} <a class="btn btn-info" href="{% url 'world' %}">Mundo</a> {% endcomment %}
+  </div>
+</div>
+<div class="row pb-5">
+  <div class="col-lg-6">
+    <div class="card bg-light mb-3">
+      <div class="card-header">Números do Brasil</div>
+      <div class="card-body">
+        <h5 class="card-title">Dados totais</h5>
+        <ul class="list-group">
+          <li class="list-group-item">
+            Confirmados:
+            <span>{{ brazil_data.confirmed|intcomma }}</span>
+          </li>
+          <li class="list-group-item">
+            Recuperados: <span>{{ brazil_data.recovered|intcomma }}</span>
+          </li>
+          <li class="list-group-item">
+            Mortes: <span>{{ brazil_data.deaths|intcomma }}</span>
+          </li>
+        </ul>
+      </div>
+      <div class="card-footer text-muted">
+        <p>Fonte: Ministério da Saúde</p>
+        <small>Última atualização em {{ brazil_data.date }}</small>
+      </div>
     </div>
   </div>
-  <div class="col-lg-8">
-    <div class="row pb-5 mt-3">
-      <div class="col-lg-6">
-        <div class="card bg-light mb-3">
-          <div class="card-header">Números do Brasil</div>
-          <div class="card-body">
-            <h5 class="card-title">Dados totais</h5>
-            <ul class="list-group">
-              <li class="list-group-item">
-                Confirmados:
-                <span>{{ brazil_data.confirmed|intcomma }}</span>
-              </li>
-              <li class="list-group-item">
-                Recuperados: <span>{{ brazil_data.recovered|intcomma }}</span>
-              </li>
-              <li class="list-group-item">
-                Mortes: <span>{{ brazil_data.deaths|intcomma }}</span>
-              </li>
-            </ul>
-          </div>
-          <div class="card-footer text-muted">
-            <p>Fonte: Ministério da Saúde</p>
-            <small>Última atualização em {{ brazil_data.date }}</small>
-          </div>
-        </div>
+  <div class="col-lg-6">
+    <div class="card bg-light mb-5">
+      <div class="card-header">Números do mundo</div>
+      <div class="card-body">
+        <h5 class="card-title">Dados totais</h5>
+        <ul class="list-group">
+          <li class="list-group-item">
+            Confirmados:
+            <span>{{ total_data.confirmed|intcomma }}</span>
+          </li>
+          <li class="list-group-item">
+            Recuperados: <span>{{ total_data.recovered|intcomma }}</span>
+          </li>
+          <li class="list-group-item">
+            Mortes: <span>{{ total_data.deaths|intcomma }}</span>
+          </li>
+        </ul>
       </div>
-      <div class="col-lg-6">
-        <div class="card bg-light mb-5">
-          <div class="card-header">Números do mundo</div>
-          <div class="card-body">
-            <h5 class="card-title">Dados totais</h5>
-            <ul class="list-group">
-              <li class="list-group-item">
-                Confirmados:
-                <span>{{ total_data.confirmed|intcomma }}</span>
-              </li>
-              <li class="list-group-item">
-                Recuperados: <span>{{ total_data.recovered|intcomma }}</span>
-              </li>
-              <li class="list-group-item">
-                Mortes: <span>{{ total_data.deaths|intcomma }}</span>
-              </li>
-            </ul>
-          </div>
-          <div class="card-footer text-muted">
-            <p>Fonte: Universidade Johns Hopkins</p>
-            <small>Última atualização em {{ total_data.date }}</small>
-          </div>
-        </div>
+      <div class="card-footer text-muted">
+        <p>Fonte: Universidade Johns Hopkins</p>
+        <small>Última atualização em {{ total_data.date }}</small>
       </div>
     </div>
   </div>
