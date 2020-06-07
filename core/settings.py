@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     "city",
     "world",
     "widget_tweaks",
+    "dbbackup",
 ]
 
 MIDDLEWARE = [
@@ -69,6 +70,9 @@ DATABASES = {
         "PORT": "",
     }
 }
+
+DBBACKUP_STORAGE = "django.core.files.storage.FileSystemStorage"
+DBBACKUP_STORAGE_OPTIONS = {"location": f"{BASE_DIR}/backups"}
 
 # CELERY
 CELERY_BROKER_URL = config("REDIS_URL")

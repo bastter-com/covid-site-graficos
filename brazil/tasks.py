@@ -1,6 +1,7 @@
 from celery.task.schedules import crontab
 from celery.decorators import periodic_task
 from celery.utils.log import get_task_logger
+from django.core.management import call_command
 from brazil.services.save_data_states import (
     search_for_empty_data_to_save,
     search_for_empty_registers_between_two_dates_or_before_first_case,
@@ -50,3 +51,15 @@ def task_fix_empty_registers_copying_last_register():
     """
     search_for_empty_registers_between_two_dates_or_before_first_case()
     logger.info("Date parsed succesfully.")
+
+
+@periodic_task(
+    run_every=(crontab(0, 0, day_of_month="2-30/2")),
+    name="backup_database",
+    ignore_result=True,
+)
+def task_to_backup_database():
+    """
+    Celery task to backup database.
+    """
+    call_command("dbbackup")
