@@ -68,42 +68,46 @@
     </div>
   </div>
 
-  <div class="container border my-3">
-    <small>Última atualização de dados municipais: {{ last_date_with_cities_update }}</small>
-    <small class="d-block">Dica: passe o mouse ou clique sobre um município para ver os dados</small>
-    <ul class="nav nav-tabs">
-      <li class="nav-item">
-        <a
-          class="nav-link chart-nav-link linear cases active"
-          >Casos</a
-        >
-      </li>
-      <li class="nav-item">
-        <a class="nav-link chart-nav-link deaths"
-          >Mortes</a
-        >
-      </li>
-      <li class="nav-item">
-        <a class="nav-link chart-nav-link cases100k"
-          >Taxa de casos</a
-        >
-      </li>
-      <li class="nav-item">
-        <a class="nav-link chart-nav-link deaths100k"
-          >Taxa de mortes</a
-        >
-      </li>
-    </ul>
-    <!-- Chart 3 -->
-    <p id="geochart-title" class="text-center h2 geochart pt-3">
-      Casos por município
-    </p>
-    <div class="chart-container">
-      <div id="chart-map-1" class="geochartmap"></div>
+  {% if uf != 'DF' %}
+    <div class="container border my-3">
+      <small>Última atualização de dados municipais: {{ last_date_with_cities_update }}</small>
+      <small class="d-block">Dica: passe o mouse ou clique sobre um município para ver os dados</small>
+      <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <a
+            class="nav-link chart-nav-link linear cases active"
+            >Casos</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link chart-nav-link deaths"
+            >Mortes</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link chart-nav-link cases100k"
+            >Taxa de casos</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link chart-nav-link deaths100k"
+            >Taxa de mortes</a
+          >
+        </li>
+      </ul>
+      <!-- Chart 3 -->
+      <p id="geochart-title" class="text-center h2 geochart pt-3">
+        Casos por município
+      </p>
+      <div class="chart-container">
+        <div id="chart-map-1" class="geochartmap"></div>
+      </div>
     </div>
-  </div>
-
-  
+  {% else %}
+    <div class="container border my-3">
+      <p class="p-3">O Distrito Federal só apresenta um município, Brasília, e por isso escolhemos não mostrar o mapa municipal detalhado por não fazer sentido para o DF.
+    </div>
+  {% endif %}
 
   <div class="table-responsive mb-5">
     <table class="table table-striped">

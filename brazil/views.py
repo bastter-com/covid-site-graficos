@@ -76,6 +76,7 @@ def state(request, uf):
         request,
         "brazil/state.html",
         {
+            "uf": uf,
             "context": total_data,
             "data_for_charts": data_for_charts,
             "cities_data": cities_data,
