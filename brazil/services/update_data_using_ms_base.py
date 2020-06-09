@@ -261,16 +261,14 @@ def delete_xlsx_files_after_processing():
             remove(file)
 
 
-def pipeline_to_save_data_using_ms_source():
+def pipeline_to_save_data_using_ms_source(
+    date_to_get_data=datetime.date.today().strftime("%Y-%m-%d"),
+):
     """
     Pipeline function to save new data to database using
     Ministerio da Saude source data
     """
     print("Starting the pipeline for MS data...")
-    date_today = datetime.date.today()
-    yesterday = date_today - datetime.timedelta(days=1)
-    yesterday = yesterday.strftime("%Y-%m-%d")
-    today = date_today.strftime("%Y-%m-%d")
 
     # problems with selenium in server
     # xlsx_file = pipeline_to_download_xlsx_file()
@@ -281,7 +279,7 @@ def pipeline_to_save_data_using_ms_source():
 
     df = open_xlsx_file_with_pandas(xlsx_file)
     filtered_df_by_today_date = filter_dataframe_to_find_data_of_specific_date(
-        df, today
+        df, date_to_get_data
     )
     cleaned_df = cleanup_dataframe(filtered_df_by_today_date)
     iterate_dataframe_rows_and_save_new_data_in_database(cleaned_df)
