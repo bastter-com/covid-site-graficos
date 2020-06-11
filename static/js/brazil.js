@@ -631,7 +631,7 @@ const dataForSecondMapChart = {
   colorIndex: 1,
   statesDailyData: statesDailyData,
   dataToShowOnMapChart: 'total_deaths',
-  hoverColor: '#7695a3',
+  hoverColor: '#075f85',
 };
 
 const dataForThirdMapChart = {
@@ -639,7 +639,7 @@ const dataForThirdMapChart = {
   colorIndex: 1,
   statesDailyData: statesDailyData,
   dataToShowOnMapChart: 'cases_per_100k_pop',
-  hoverColor: '#0c7876',
+  hoverColor: '#075f85',
 };
 
 const dataForFourthMapChart = {
@@ -647,7 +647,7 @@ const dataForFourthMapChart = {
   colorIndex: 1,
   statesDailyData: statesDailyData,
   dataToShowOnMapChart: 'deaths_per_100k_pop',
-  hoverColor: '#cf4a08',
+  hoverColor: '#075f85',
 };
 
 am4core.ready(function () {
