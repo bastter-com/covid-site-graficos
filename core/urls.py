@@ -6,7 +6,7 @@ import city.urls
 from .views import index, states
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    path("melancia/", admin.site.urls),
     path("", index, name="index"),
     path("brasil/", include(brazil.urls)),
     path("mundo/", include(world.urls)),
