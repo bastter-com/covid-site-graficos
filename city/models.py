@@ -42,10 +42,16 @@ class CityData(models.Model):
         max_length=30, choices=UPDATE_SOURCE_CHOICES
     )
     city = models.CharField(max_length=80)
-    city_ibge_code = models.CharField(max_length=12, unique=True)
+    city_ibge_code = models.CharField(max_length=12)
     confirmed = models.PositiveIntegerField()
     confirmed_per_100k_inhabitants = models.FloatField()
     date = models.DateField()
     death_rate = models.FloatField()
     deaths = models.PositiveIntegerField()
     estimated_population_2019 = models.PositiveIntegerField()
+
+    class Meta:
+        unique_together = ["city_ibge_code", "date"]
+
+    def __str__(self):
+        return f"{self.state} - {self.city} - {self.date}"

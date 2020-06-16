@@ -5,7 +5,12 @@ def get_cities_data_of_an_uf(uf):
     """
     Get the cities data of a choosen UF.
     """
-    queryset = CityData.objects.filter(state=uf)
+    last_date_of_updated_city_data = (
+        CityData.objects.filter(state=uf).order_by("date").last().date
+    )
+    queryset = CityData.objects.filter(
+        state=uf, date=last_date_of_updated_city_data
+    )
 
     data = list(queryset.values())
 

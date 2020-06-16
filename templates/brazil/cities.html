@@ -2,26 +2,28 @@
 {% block title %} Cidades {% endblock %} 
 {% load widget_tweaks %} 
 {% block content %}
-    <h1>Cidades</h1>
-    <p class="text-justify">Selecione uma cidade abaixo para ver seus dados</p>
-    <div class="row mb-5">
-        <div class="col-lg-6">
-            <form action="." method="get">
-                {% csrf_token %}
-                <div class="form-group">
-                    <select class="form-control mb-3" name="select-uf" id="select-uf">
-                    <option>Unidade Federativa</option>
-                    {% for state in states_uf %}
-                    <option val="{{ state.UF }}">{{ state.UF }}</option>
-                    {% endfor %}
-                    </select>
-                    <select class="form-control" name="select-city" id="select-city"> </select>
-                </div>
-            </form> 
-            <button id="search-city-btn" class="btn btn-block btn-primary mb-4">Buscar cidade</button>
-        </div>
-        <div class="col-lg-6">
-        <div class="card bg-light mb-5">
+<!-- <div class="row mb-5"> -->
+  <!-- <div class="col-lg-6"> -->
+    <div class="row mb-5" id="city-form-container">
+      <div class="col-lg-6">
+        <h1>Cidades</h1>
+        <p class="text-justify">Selecione uma cidade abaixo para ver seus dados</p>
+        <form action="." method="get">
+            {% csrf_token %}
+            <div class="form-group">
+                <select class="form-control mb-3" name="select-uf" id="select-uf">
+                <option>Unidade Federativa</option>
+                {% for state in states_uf %}
+                <option val="{{ state.UF }}">{{ state.UF }}</option>
+                {% endfor %}
+                </select>
+                <select class="form-control" name="select-city" id="select-city"> </select>
+            </div>
+        </form> 
+        <button id="search-city-btn" class="btn btn-block btn-primary mb-4">Buscar cidade</button>
+      </div>
+      <div class="col-lg-6">
+        <div class="card bg-light mb-3" id="city-info-card">
           <div class="card-header">Dados: <span id="city-data-name"></span> - <span id="city-data-name-uf"></span></div>
           <div class="card-body">
             <h5 class="card-title">Dados totais</h5>
@@ -46,11 +48,61 @@
             </ul>
           </div>
           <div class="card-footer text-muted">
-            <p>Fonte: Secretarias de Saúde das Unidades Federativas, dados tratados por Álvaro Justen e colaboradores/Brasil.IO.</p>
+            <small class="d-block">Fonte: Secretarias de Saúde das Unidades Federativas, dados tratados por Álvaro Justen e colaboradores/Brasil.IO.</small>
             <small>Última atualização em <span id="city-data-date"></span></small>
           </div>
         </div>
-        </div>
+      </div>
     </div>
+    <div class="row mb-5 pb-4" id="city-chart-container">
+      <div class="col-lg-6 border my-3">
+        <!-- Chart 1 -->
+        <div class="chart-container-parent" id="chart-container-parent-1">
+          <small class="d-block">Dica: clique na legenda para apagar a linha.</small>
+          <small class="d-block">Obs: MM = média móvel de 7 dias.</small>
+          <ul class="nav nav-tabs">
+            <li class="nav-item">
+              <a
+                id="chart-one-linear"
+                class="nav-link chart-nav-link linear active"
+                >Linear</a
+              >
+            </li>
+            <li class="nav-item">
+              <a id="chart-one-log" class="nav-link chart-nav-link logarithm"
+                >Logarítmica</a
+              >
+            </li>
+          </ul>
+          <div class="chart-container p-0">
+            <canvas id="chart"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 border my-3">
+        <!-- Chart 2 -->
+        <div class="chart-container-parent" id="chart-container-parent-2">
+          <small class="d-block py-2">Dica: clique na legenda para apagar a linha.</small>
+          <ul class="nav nav-tabs">
+            <li class="nav-item">
+              <a
+                id="chart-two-linear"
+                class="nav-link chart-nav-link linear active"
+                >Linear</a
+              >
+            </li>
+            <li class="nav-item">
+              <a id="chart-two-log" class="nav-link chart-nav-link logarithm"
+                >Logarítmica</a
+              >
+            </li>
+          </ul>
+          <div class="chart-container p-0">
+            <canvas id="chart-2"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
     <script src="{% static 'js/city.js' %}"></script>
 {% endblock %}

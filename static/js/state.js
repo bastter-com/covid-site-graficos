@@ -93,7 +93,7 @@ const dataForChartOne = {
   ],
   title: `Números novos de casos e mortes por dia - ${stateName}`,
   labelXAxis: 'Data',
-  labelYAxis: 'Casos / Mortes',
+  labelYAxis: 'Casos | Mortes',
 };
 
 const dataForChartTwo = {
@@ -115,7 +115,7 @@ const dataForChartTwo = {
   ],
   title: `Evolução números totais de casos e mortes - ${stateName}`,
   labelXAxis: 'Data',
-  labelYAxis: 'Casos / Mortes',
+  labelYAxis: 'Casos | Mortes',
 };
 
 let chartOne = createChart(dataForChartOne);

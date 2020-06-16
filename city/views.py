@@ -4,6 +4,7 @@ import json
 import datetime
 from brazil.models import StateData
 from city.models import CityData
+from city.services import process_city_data
 
 
 def cities(request):
@@ -30,6 +31,7 @@ def cities_detail(request):
     uf = request.GET["uf"]
     cities_of_selected_uf = (
         CityData.objects.filter(state=uf.upper())
+        .distinct("city")
         .order_by("city")
         .values_list("city", flat=True)
     )
@@ -44,21 +46,40 @@ def cities_data(request):
     uf = request.GET["uf"]
     city = request.GET["city"]
 
-    queryset = CityData.objects.filter(state=uf, city=city).first()
-    data = {
-        "uf": queryset.state,
-        "city": queryset.city,
-        "confirmed": queryset.confirmed,
+    queryset = CityData.objects.filter(state=uf, city=city).order_by("date")
+    city_data_for_charts = process_city_data.prepare_data_for_charts(queryset)
+    queryset_for_card = (
+        CityData.objects.filter(state=uf, city=city).order_by("date").last()
+    )
+    city_data_for_card = {
+        "uf": queryset_for_card.state,
+        "city": queryset_for_card.city,
+        "confirmed": queryset_for_card.confirmed,
         "cases_rate_per_inhabitants": round(
-            ((queryset.confirmed / queryset.estimated_population_2019) * 100),
+            (
+                (
+                    queryset_for_card.confirmed
+                    / queryset_for_card.estimated_population_2019
+                )
+                * 100
+            ),
             3,
         ),
-        "deaths": queryset.deaths,
+        "deaths": queryset_for_card.deaths,
         "deaths_rate_per_inhabitants": round(
-            ((queryset.deaths / queryset.estimated_population_2019) * 100), 3,
+            (
+                (
+                    queryset_for_card.deaths
+                    / queryset_for_card.estimated_population_2019
+                )
+                * 100
+            ),
+            3,
         ),
-        "date": datetime.date.strftime(queryset.date, format="%d/%m/%Y"),
-        "estimated_population_2019": queryset.estimated_population_2019,
+        "date": datetime.date.strftime(
+            queryset_for_card.date, format="%d/%m/%Y"
+        ),
+        "estimated_population_2019": queryset_for_card.estimated_population_2019,
     }
-
-    return HttpResponse(json.dumps(data), content_type="application/json")
+    city_data = [city_data_for_charts, city_data_for_card]
+    return HttpResponse(json.dumps(city_data), content_type="application/json")

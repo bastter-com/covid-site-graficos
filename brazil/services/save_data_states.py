@@ -7,6 +7,7 @@ from time import sleep
 from brazil.services.data_states_maps import create_base_date_list
 from city.models import CityData
 from time import sleep
+from django.core.exceptions import ObjectDoesNotExist
 
 
 def create_list_of_uf():
@@ -137,17 +138,22 @@ def save_cities_data_to_database(state, data, date):
     """
     Save cities data to database if it is the last updated data.
     """
-    last_date_with_data = CityData.objects.filter(date=date).last()
-    if last_date_with_data:
-        date = last_date_with_data.date
-    if date != last_date_with_data:
-        for city in data:
-            state_to_database = StateData.objects.filter(state=state).last()
-            existing_city_or_not = CityData.objects.filter(
-                city_ibge_code=city["city_ibge_code"]
-            )
-            if existing_city_or_not:
-                existing_city_or_not.delete()
+    # last_date_with_data = CityData.objects.filter(state=state, date=date).last()
+    # if last_date_with_data:
+    #     date = last_date_with_data.date
+    # if date != last_date_with_data:
+    for city in data:
+        # state_to_database = StateData.objects.filter(state=state).last()
+        # existing_city_or_not = CityData.objects.filter(
+        #     city_ibge_code=city["city_ibge_code"]
+        # )
+        # if existing_city_or_not:
+        #     existing_city_or_not.delete()
+        flag_city_saved_or_not = False
+        try:
+            CityData.objects.get(city=city, date=date)
+        except ObjectDoesNotExist:
+            # from ipdb import set_trace; set_trace()
             if city["city_ibge_code"] and city["confirmed"]:
                 CityData.objects.create(
                     state=city["state"],
@@ -165,9 +171,34 @@ def save_cities_data_to_database(state, data, date):
                     ],
                     update_source="SES",
                 )
+            flag_city_saved_or_not = True
+    if flag_city_saved_or_not:
         print(f"Cities of {state} - {date} saved to database!")
-        return True
-    return False
+    else:
+        print("There is no city data to save")
+
+
+def save_previous_city_data_to_database():
+    """
+    Function to save previous data of each city.
+    """
+    now = datetime.date.today()
+    base_date = datetime.date(2020, 2, 24)
+    duration = now - base_date
+    list_of_dates_to_check = [
+        now - datetime.timedelta(days=day) for day in range(duration.days)
+    ]
+    list_of_dates_to_check.reverse()
+    state_list = create_list_of_uf()
+
+    for date in list_of_dates_to_check:
+        for state in state_list:
+            query = CityData.objects.filter(state=state, date=date).first()
+            if not query:
+                request = base_request(state, date)
+                if request["results"]:
+                    data = request["results"][:-1]
+                    save_cities_data_to_database(state, data, date)
 
 
 def fix_empty_registers_between_two_dates(
@@ -309,17 +340,23 @@ def search_for_empty_data_to_save():
                             ],
                         }
                         save_data_to_database(state, data, date)
-                    if request["results"][-1]["is_last"]:
-                        queryset = CityData.objects.filter(
+                    queryset = CityData.objects.filter(
                             state=state, date=date
                         )
-                        if not queryset:
-                            data = request["results"][:-1]
-                            save_cities_data_to_database(state, data, date)
-                        else:
-                            print(
-                                f"Cities of {state} - {date} are already in database"
-                            )
+                    if not queryset:
+                        data = request['results'][:-1]
+                        save_cities_data_to_database(state, data, date)
+                    # if request["results"][-1]["is_last"]:
+                    #     queryset = CityData.objects.filter(
+                    #         state=state, date=date
+                    #     )
+                    #     if not queryset:
+                    #         data = request["results"][:-1]
+                    #         save_cities_data_to_database(state, data, date)
+                    #     else:
+                    #         print(
+                    #             f"Cities of {state} - {date} are already in database"
+                    #         )
 
                 else:
                     print("This state/date pair haven't data to save yet")

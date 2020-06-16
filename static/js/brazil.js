@@ -246,7 +246,7 @@ const dataForChartOne = {
   ],
   title: 'Números novos de casos e mortes por dia no Brasil',
   labelXAxis: 'Data',
-  labelYAxis: 'Casos / Mortes',
+  labelYAxis: 'Casos | Mortes',
 };
 
 const dataForChartTwo = {
@@ -268,7 +268,7 @@ const dataForChartTwo = {
   ],
   title: 'Evolução números totais de casos e mortes no Brasil',
   labelXAxis: 'Data',
-  labelYAxis: 'Casos / Mortes',
+  labelYAxis: 'Casos | Mortes',
 };
 
 let dataForChartThree = () => {

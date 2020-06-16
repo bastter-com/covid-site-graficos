@@ -21,6 +21,14 @@ table {
   box-shadow: 5px 10px 7px #888888;
 }
 
+#city-chart-container {
+  display: none;
+}
+
+#city-info-card {
+  font-size: 14px;
+}
+
 .geochart {
   color: #7a7d7b;
 }
