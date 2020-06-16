@@ -64,7 +64,7 @@ def state(request, uf):
     )
 
     last_date_with_cities_update = (
-        CityData.objects.filter(state=uf.upper()).last().date
+        CityData.objects.filter(state=uf).order_by("date").last().date
     )
 
     data_for_charts = total_data["data_for_charts"]
