@@ -11,5 +11,5 @@ urlpatterns = [
     path("mundo/", include(world.urls)),
     path("cidades/", include(city.urls)),
     path("estados/", states, name="states"),
-    path("bananas/", include(admin.site.urls))
+    path("bananas/", admin.site.urls)
 ]
