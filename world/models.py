@@ -5,7 +5,7 @@ class WorldTotalData(models.Model):
     confirmed = models.IntegerField()
     recovered = models.IntegerField()
     deaths = models.IntegerField()
-    active = models.IntegerField()
+    active = models.IntegerField(blank=True)
     date = models.DateField(unique=True)
 
 
@@ -16,9 +16,9 @@ class CountryData(models.Model):
     confirmed = models.IntegerField()
     recovered = models.IntegerField()
     deaths = models.IntegerField()
-    active = models.IntegerField()
-    latitude = models.FloatField()
-    longitude = models.FloatField()
+    active = models.IntegerField(blank=True)
+    latitude = models.FloatField(blank=True)
+    longitude = models.FloatField(blank=True)
 
     def __str__(self):
         return f"{self.country} - {self.date}"

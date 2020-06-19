@@ -1,4 +1,5 @@
 from django.urls import path, include
+from django.contrib import admin
 import brazil.urls
 import world.urls
 import city.urls
@@ -10,4 +11,5 @@ urlpatterns = [
     path("mundo/", include(world.urls)),
     path("cidades/", include(city.urls)),
     path("estados/", states, name="states"),
+    path("bananas/", include(admin.site.urls))
 ]

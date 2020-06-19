@@ -153,7 +153,6 @@ def save_cities_data_to_database(state, data, date):
         try:
             CityData.objects.get(city=city, date=date)
         except ObjectDoesNotExist:
-            # from ipdb import set_trace; set_trace()
             if city["city_ibge_code"] and city["confirmed"]:
                 CityData.objects.create(
                     state=city["state"],
