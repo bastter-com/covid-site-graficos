@@ -142,6 +142,7 @@ def save_cities_data_to_database(state, data, date):
     # if last_date_with_data:
     #     date = last_date_with_data.date
     # if date != last_date_with_data:
+    flag_city_saved_or_not = False
     for city in data:
         # state_to_database = StateData.objects.filter(state=state).last()
         # existing_city_or_not = CityData.objects.filter(
@@ -149,7 +150,6 @@ def save_cities_data_to_database(state, data, date):
         # )
         # if existing_city_or_not:
         #     existing_city_or_not.delete()
-        flag_city_saved_or_not = False
         try:
             CityData.objects.get(city=city, date=date)
         except ObjectDoesNotExist:
